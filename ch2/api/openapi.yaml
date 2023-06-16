@@ -1,0 +1,4866 @@
+openapi: 3.0.1
+info:
+  title: CH2 Management API
+  version: v1
+servers:
+- url: https://anypoint.mulesoft.com/runtimefabric/api
+paths:
+  /organizations/{orgId}/privatespaces:
+    get:
+      description: get the list of Private Spaces in the organization.
+      parameters:
+      - description: The Organization id where the Private Space lives.
+        in: path
+        name: orgId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/PrivateSpace'
+                type: array
+          description: ""
+          headers:
+            ETag:
+              description: The current value of the entity tag for the requested variant
+              schema:
+                type: string
+                x-amf-required: false
+          x-amf-mediaType: application/json
+        "415":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type'
+          description: ""
+          x-amf-mediaType: application/json
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type'
+          description: ""
+          headers:
+            Retry-After:
+              schema:
+                type: string
+          x-amf-mediaType: application/json
+      x-amf-security:
+      - std.x-token: []
+    post:
+      description: create a Private Space
+      parameters:
+      - description: The Organization id where the Private Space lives.
+        in: path
+        name: orgId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PrivateSpacePost'
+        required: false
+        x-amf-mediaType: application/json
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PrivateSpace'
+          description: ""
+          headers:
+            ETag:
+              description: The current value of the entity tag for the requested variant
+              schema:
+                type: string
+            Location:
+              description: URL where the new privatespace can be found
+              schema:
+                type: string
+          x-amf-mediaType: application/json
+        "409":
+          content: {}
+          description: ""
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type'
+          description: Bad Request.
+          x-amf-mediaType: application/json
+        "415":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type'
+          description: ""
+          x-amf-mediaType: application/json
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type'
+          description: ""
+          headers:
+            Retry-After:
+              schema:
+                type: string
+          x-amf-mediaType: application/json
+      x-amf-security:
+      - std.x-token: []
+      x-codegen-request-body-name: generated
+    x-amf-description: The collection of privatespaces
+  /organizations/{orgId}/privatespaces/supportedVpnConfigs:
+    get:
+      description: get supported vpn configs
+      parameters:
+      - description: The Organization id where the Private Space lives.
+        in: path
+        name: orgId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content: {}
+          description: ""
+  /organizations/{orgId}/privatespaces/{privateSpaceId}:
+    delete:
+      description: delete the Private Space
+      parameters:
+      - description: The Organization id where the Private Space lives.
+        in: path
+        name: orgId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: privateSpaceId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content: {}
+          description: ""
+    get:
+      description: get the Private Space
+      parameters:
+      - description: The Organization id where the Private Space lives.
+        in: path
+        name: orgId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: privateSpaceId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                x-amf-examples:
+                  response:
+                    id: b72b876d-f63d-11e7-a06c-080027adee7c
+                    name: my-private-space
+                    organizationId: b72b876d-f63d-11e7-a06c-080027adee7d
+                    status: Active
+                    network:
+                      region: us-east-1
+                      cidrBlock: 10.0.0.0/18
+                    firewallRules:
+                    - cidrBlock: 0.0.0.0/0
+                      protocol: tcp
+                      fromPort: 8081
+                      toPort: 8081
+                      type: inbound
+                    - cidrBlock: 0.0.0.0/0
+                      protocol: tcp
+                      fromPort: 8082
+                      toPort: 8082
+                      type: inbound
+                    - cidrBlock: 0.0.0.0/0
+                      protocol: tcp
+                      fromPort: 0
+                      toPort: 65535
+                      type: outbound
+                    environments:
+                      type: all
+                      businessGroups:
+                      - all
+                    logForwarding:
+                      anypointMonitoring: true
+                    ingressConfiguration:
+                      readResponseTimeout: 300
+                      logs:
+                        portLogLevel: ERROR
+                        filters: []
+                      protocol: https-redirect
+          description: ""
+          x-amf-mediaType: application/json
+        "404":
+          content:
+            application/json:
+              schema:
+                type: object
+          description: ""
+          x-amf-mediaType: application/json
+    patch:
+      description: Update existing Private Space
+      parameters:
+      - description: The Organization id where the Private Space lives.
+        in: path
+        name: orgId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: privateSpaceId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PrivateSpacePatch'
+        required: false
+        x-amf-mediaType: application/json
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PrivateSpace'
+          description: ""
+          x-amf-mediaType: application/json
+        "202":
+          content:
+            application/json:
+              schema:
+                type: object
+                x-amf-examples:
+                  response:
+                    id: b72b876d-f63d-11e7-a06c-080027adee7c
+                    name: my-private-space
+                    organizationId: b72b876d-f63d-11e7-a06c-080027adee7d
+                    status: Active
+                    network:
+                      region: us-east-1
+                      cidrBlock: 10.0.0.0/18
+                    firewallRules:
+                    - cidrBlock: 0.0.0.0/0
+                      protocol: tcp
+                      fromPort: 8081
+                      toPort: 8081
+                      type: inbound
+                    - cidrBlock: 0.0.0.0/0
+                      protocol: tcp
+                      fromPort: 8082
+                      toPort: 8082
+                      type: inbound
+                    - cidrBlock: 0.0.0.0/0
+                      protocol: tcp
+                      fromPort: 0
+                      toPort: 65535
+                      type: outbound
+                    environments:
+                      type: all
+                      businessGroups:
+                      - all
+                    logForwarding:
+                      anypointMonitoring: true
+                    ingressConfiguration:
+                      readResponseTimeout: 300
+                      logs:
+                        portLogLevel: ERROR
+                        filters: []
+                      protocol: https-redirect
+          description: ""
+          x-amf-mediaType: application/json
+      x-codegen-request-body-name: generated
+    x-amf-description: Get an entity representing a privatespace
+  /organizations/{orgId}/privatespaces/{privateSpaceId}/iamroles:
+    get:
+      description: get the IAM roles associated with the space.
+      parameters:
+      - description: The Organization id where the Private Space lives.
+        in: path
+        name: orgId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: privateSpaceId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IAMRole'
+          description: ""
+          x-amf-mediaType: application/json
+  /organizations/{orgId}/privatespaces/{privateSpaceId}/accounts:
+    get:
+      description: get the AWS account Id a string value.
+      parameters:
+      - description: The Organization id where the Private Space lives.
+        in: path
+        name: orgId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: privateSpaceId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content: {}
+          description: ""
+  /organizations/{orgId}/privatespaces/{privateSpaceId}/routes:
+    x-amf-description: The collection of routes
+  /organizations/{orgId}/privatespaces/{privateSpaceId}/connections:
+    get:
+      description: get the list of Connections inside the private space.
+      parameters:
+      - description: The Organization id where the Private Space lives.
+        in: path
+        name: orgId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: privateSpaceId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/PrivateSpaceConnection'
+                type: array
+          description: ""
+          headers:
+            ETag:
+              description: The current value of the entity tag for the requested variant
+              schema:
+                type: string
+                x-amf-required: false
+          x-amf-mediaType: application/json
+        "415":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type'
+          description: ""
+          x-amf-mediaType: application/json
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type'
+          description: ""
+          headers:
+            Retry-After:
+              schema:
+                type: string
+          x-amf-mediaType: application/json
+    post:
+      description: create a Private Space Connection
+      parameters:
+      - description: The Organization id where the Private Space lives.
+        in: path
+        name: orgId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: privateSpaceId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PrivateSpaceConnectionPost'
+        required: false
+        x-amf-mediaType: application/json
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PrivateSpaceConnection'
+          description: ""
+          headers:
+            ETag:
+              description: The current value of the entity tag for the requested variant
+              schema:
+                type: string
+            Location:
+              description: URL where the new connection can be found
+              schema:
+                type: string
+          x-amf-mediaType: application/json
+        "409":
+          content: {}
+          description: ""
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type'
+          description: Bad Request.
+          x-amf-mediaType: application/json
+        "415":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type'
+          description: ""
+          x-amf-mediaType: application/json
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type'
+          description: ""
+          headers:
+            Retry-After:
+              schema:
+                type: string
+          x-amf-mediaType: application/json
+      x-codegen-request-body-name: generated
+    x-amf-description: The collection of connections
+  /organizations/{orgId}/privatespaces/{privateSpaceId}/connections/{connectionId}:
+    delete:
+      description: delete the Private Space Connection
+      parameters:
+      - description: The Organization id where the Private Space lives.
+        in: path
+        name: orgId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: privateSpaceId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: connectionId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content: {}
+          description: ""
+    get:
+      description: get the Private Space Connection
+      parameters:
+      - description: The Organization id where the Private Space lives.
+        in: path
+        name: orgId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: privateSpaceId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: connectionId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                x-amf-examples:
+                  response:
+                    id: 83d77850-04ee-4368-8122-192f760913de
+                    name: hello-connection
+                    vpns:
+                    - id: vpn-1234556
+                      vpnId: 83d77850-04ee-4368-8122-192f760913de
+                      name: test-vpn-dev
+                      localAsn: 65001
+                      remoteAsn: 65002
+                      remoteIpAddress: 1.2.3.4
+                      connectionStatus: available
+                      staticRoutes: []
+                      vpnTunnels: []
+                      vpnTunnelsConfig: []
+                    - id: vpn-1234556
+                      name: test-vpn-dev-bak
+                      vpnId: 83d77850-04ee-4368-8122-192f760913df
+                      localAsn: 65001
+                      remoteAsn: 65002
+                      remoteIpAddress: 1.2.3.5
+                      connectionStatus: available
+                      staticRoutes: []
+                      vpnTunnels: []
+                      vpnTunnelsConfig: []
+          description: ""
+          x-amf-mediaType: application/json
+        "404":
+          content:
+            application/json:
+              schema:
+                type: object
+          description: ""
+          x-amf-mediaType: application/json
+    patch:
+      description: Update existing Private Space Connection
+      parameters:
+      - description: The Organization id where the Private Space lives.
+        in: path
+        name: orgId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: privateSpaceId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: connectionId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PrivateSpaceConnectionPatch'
+        required: false
+        x-amf-mediaType: application/json
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PrivateSpaceConnection_1'
+          description: ""
+          x-amf-mediaType: application/json
+        "202":
+          content:
+            application/json:
+              schema:
+                type: object
+                x-amf-examples:
+                  response:
+                    id: 83d77850-04ee-4368-8122-192f760913de
+                    name: hello-connection
+                    vpns:
+                    - id: vpn-1234556
+                      vpnId: 83d77850-04ee-4368-8122-192f760913de
+                      name: test-vpn-dev
+                      localAsn: 65001
+                      remoteAsn: 65002
+                      remoteIpAddress: 1.2.3.4
+                      connectionStatus: available
+                      staticRoutes: []
+                      vpnTunnels: []
+                      vpnTunnelsConfig: []
+                    - id: vpn-1234556
+                      name: test-vpn-dev-bak
+                      vpnId: 83d77850-04ee-4368-8122-192f760913df
+                      localAsn: 65001
+                      remoteAsn: 65002
+                      remoteIpAddress: 1.2.3.5
+                      connectionStatus: available
+                      staticRoutes: []
+                      vpnTunnels: []
+                      vpnTunnelsConfig: []
+          description: ""
+          x-amf-mediaType: application/json
+      x-codegen-request-body-name: generated
+    x-amf-description: Get an entity representing a connection
+  /organizations/{orgId}/privatespaces/{privateSpaceId}/connections/vpns:
+    post:
+      description: add a vpn to an existing connection.
+      parameters:
+      - description: The Organization id where the Private Space lives.
+        in: path
+        name: orgId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: privateSpaceId
+        required: true
+        schema:
+          type: string
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PrivateSpaceConnection'
+          description: ""
+          headers:
+            ETag:
+              description: The current value of the entity tag for the requested variant
+              schema:
+                type: string
+            Location:
+              description: URL where the new vpn can be found
+              schema:
+                type: string
+          x-amf-mediaType: application/json
+        "409":
+          content: {}
+          description: ""
+  /organizations/{orgId}/privatespaces/{privateSpaceId}/connections/vpns/{vpnId}:
+    delete:
+      description: delete a vpn from a connection.
+      parameters:
+      - description: The Organization id where the Private Space lives.
+        in: path
+        name: orgId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: privateSpaceId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: vpnId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content: {}
+          description: ""
+    patch:
+      description: delete a vpn from a connection.
+      parameters:
+      - description: The Organization id where the Private Space lives.
+        in: path
+        name: orgId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: privateSpaceId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: vpnId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PrivateSpaceConnectionVpnPatch'
+        required: false
+        x-amf-mediaType: application/json
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PrivateSpaceConnectionVpnPatch'
+          description: ""
+          x-amf-mediaType: application/json
+      x-codegen-request-body-name: generated
+  /organizations/{orgId}/privatespaces/{privateSpaceId}/connections/vpns/{vpnId}/connectionGuide:
+    get:
+      parameters:
+      - in: query
+        name: vendor
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: platform
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: software
+        required: true
+        schema:
+          type: string
+      - description: The Organization id where the Private Space lives.
+        in: path
+        name: orgId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: privateSpaceId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: vpnId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content: {}
+          description: ""
+    x-amf-description: download connection guide for vpn.
+  /organizations/{orgId}/privatespaces/{privateSpaceId}/transitgateways:
+    get:
+      description: get list of TGW connections assocated with a private space.
+      parameters:
+      - description: The Organization id where the Private Space lives.
+        in: path
+        name: orgId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: privateSpaceId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/PrivateSpaceTransitGateway'
+                type: array
+          description: ""
+          headers:
+            ETag:
+              description: The current value of the entity tag for the requested variant
+              schema:
+                type: string
+                x-amf-required: false
+          x-amf-mediaType: application/json
+        "415":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type'
+          description: ""
+          x-amf-mediaType: application/json
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type'
+          description: ""
+          headers:
+            Retry-After:
+              schema:
+                type: string
+          x-amf-mediaType: application/json
+    post:
+      description: create a private space TGW connection.
+      parameters:
+      - description: The Organization id where the Private Space lives.
+        in: path
+        name: orgId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: privateSpaceId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PrivateSpaceTransitGatewayPost'
+        required: false
+        x-amf-mediaType: application/json
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PrivateSpaceTransitGateway'
+          description: ""
+          headers:
+            ETag:
+              description: The current value of the entity tag for the requested variant
+              schema:
+                type: string
+            Location:
+              description: URL where the new transitgateway can be found
+              schema:
+                type: string
+          x-amf-mediaType: application/json
+        "409":
+          content: {}
+          description: ""
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type'
+          description: Bad Request.
+          x-amf-mediaType: application/json
+        "415":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type'
+          description: ""
+          x-amf-mediaType: application/json
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type'
+          description: ""
+          headers:
+            Retry-After:
+              schema:
+                type: string
+          x-amf-mediaType: application/json
+      x-codegen-request-body-name: generated
+    x-amf-description: The collection of transitgateways
+  /organizations/{orgId}/privatespaces/{privateSpaceId}/transitgateways/{tgwId}:
+    delete:
+      description: Detach a Transit Gateway from the Private Space
+      parameters:
+      - description: The Organization id where the Private Space lives.
+        in: path
+        name: orgId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: privateSpaceId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: tgwId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content: {}
+          description: ""
+    get:
+      description: |
+        Get the transitgateway
+        with id =
+        {transitgatewayId}
+      parameters:
+      - description: The Organization id where the Private Space lives.
+        in: path
+        name: orgId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: privateSpaceId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: tgwId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                x-amf-examples:
+                  response:
+                    id: 83d77850-04ee-4368-8122-192f760913de
+                    name: rtf-kamboocha
+                    spec:
+                      resourceShare:
+                        id: 5e409a9d-49a7-456c-82d7-a6254738a18d
+                        account: "25102306"
+                      region: us-east-1
+                      networkIds:
+                      - network-deployment-id1
+                      spaceName: space
+                    status:
+                      gateway: unknown
+                      attachment: unattached
+                      tgwResource: http://aws.tgw.link.com
+                      routes:
+                      - 10.0.0.0/21
+                      - 10.0.0.0/22
+          description: ""
+          x-amf-mediaType: application/json
+        "404":
+          content:
+            application/json:
+              schema:
+                type: object
+          description: ""
+          x-amf-mediaType: application/json
+    patch:
+      description: patch the Private Space TGW Connection
+      parameters:
+      - description: The Organization id where the Private Space lives.
+        in: path
+        name: orgId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: privateSpaceId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: tgwId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PrivateSpaceTransitGatewayPatch'
+        required: false
+        x-amf-mediaType: application/json
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PrivateSpaceTransitGateway'
+          description: ""
+          x-amf-mediaType: application/json
+        "202":
+          content:
+            application/json:
+              schema:
+                type: object
+                x-amf-examples:
+                  response:
+                    id: 83d77850-04ee-4368-8122-192f760913de
+                    name: rtf-kamboocha
+                    spec:
+                      resourceShare:
+                        id: 5e409a9d-49a7-456c-82d7-a6254738a18d
+                        account: "25102306"
+                      region: us-east-1
+                      networkIds:
+                      - network-deployment-id1
+                      spaceName: space
+                    status:
+                      gateway: unknown
+                      attachment: unattached
+                      tgwResource: http://aws.tgw.link.com
+                      routes:
+                      - 10.0.0.0/21
+                      - 10.0.0.0/22
+          description: ""
+          x-amf-mediaType: application/json
+      x-codegen-request-body-name: generated
+    x-amf-description: Get an entity representing a transitgateway
+  /organizations/{orgId}/privatespaces/{privateSpaceId}/transitgateways/{tgwId}/routes:
+    get:
+      description: get TGW routes configured to tgw connection.
+      parameters:
+      - description: The Organization id where the Private Space lives.
+        in: path
+        name: orgId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: privateSpaceId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: tgwId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content: {}
+          description: ""
+    patch:
+      description: patch routes for a TGW connection.
+      parameters:
+      - description: The Organization id where the Private Space lives.
+        in: path
+        name: orgId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: privateSpaceId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: tgwId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              items:
+                type: string
+              type: array
+        required: false
+        x-amf-mediaType: application/json
+      responses:
+        "200":
+          content: {}
+          description: ""
+      x-codegen-request-body-name: generated
+  /organizations/{orgId}/privatespaces/{privateSpaceId}/transitgateways/routes:
+    get:
+      description: get TGW routes configured to private space.
+      parameters:
+      - description: The Organization id where the Private Space lives.
+        in: path
+        name: orgId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: privateSpaceId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content: {}
+          description: ""
+  /organizations/{orgId}/privatespaces/{privateSpaceId}/tlsContexts:
+    get:
+      description: get the list of TLS contexts inside the private space.
+      parameters:
+      - description: The Organization id where the Private Space lives.
+        in: path
+        name: orgId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: privateSpaceId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/PrivateSpaceTlsContext'
+                type: array
+          description: ""
+          headers:
+            ETag:
+              description: The current value of the entity tag for the requested variant
+              schema:
+                type: string
+                x-amf-required: false
+          x-amf-mediaType: application/json
+        "415":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type'
+          description: ""
+          x-amf-mediaType: application/json
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type'
+          description: ""
+          headers:
+            Retry-After:
+              schema:
+                type: string
+          x-amf-mediaType: application/json
+    post:
+      description: create a TLS context
+      parameters:
+      - description: The Organization id where the Private Space lives.
+        in: path
+        name: orgId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: privateSpaceId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/default'
+        required: false
+        x-amf-mediaType: application/json
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PrivateSpaceTlsContext'
+          description: ""
+          headers:
+            ETag:
+              description: The current value of the entity tag for the requested variant
+              schema:
+                type: string
+            Location:
+              description: URL where the new tlsContext can be found
+              schema:
+                type: string
+          x-amf-mediaType: application/json
+        "409":
+          content: {}
+          description: ""
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type'
+          description: Bad Request.
+          x-amf-mediaType: application/json
+        "415":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type'
+          description: ""
+          x-amf-mediaType: application/json
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type'
+          description: ""
+          headers:
+            Retry-After:
+              schema:
+                type: string
+          x-amf-mediaType: application/json
+      x-codegen-request-body-name: generated
+    x-amf-description: The collection of tlsContexts
+  /organizations/{orgId}/privatespaces/{privateSpaceId}/tlsContexts/{contextId}:
+    delete:
+      description: delete the TLS context
+      parameters:
+      - description: The Organization id where the Private Space lives.
+        in: path
+        name: orgId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: privateSpaceId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: contextId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content: {}
+          description: ""
+    get:
+      description: get the TLS context
+      parameters:
+      - description: The Organization id where the Private Space lives.
+        in: path
+        name: orgId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: privateSpaceId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: contextId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                x-amf-examples:
+                  response:
+                    id: 9b4832de-4177-4d0d-a665-6ce205c1e1be
+                    name: certs with trust store and key store
+                    trustStore:
+                      fileName: cert.pem
+                      expirationDate: 2022-08-13
+                      dnList:
+                      - issuer:
+                          commonName: www.example.com
+                          countryName: US
+                          localityName: SF
+                          organizationName: Example
+                          organizationUnit: Engineering
+                          state: CA
+                        subject:
+                          commonName: www.example2.com
+                          countryName: US
+                          localityName: SF
+                          organizationName: Example2
+                          organizationUnit: Engineering
+                          state: CA
+                        version: "3"
+                        serialNumber: CHD08323DSD
+                        signatureAlgorithm: SHA256WITHRSA
+                        publicKeyAlgorithm: RSA
+                        basicConstraints:
+                          certificateAuthority: true
+                        validity:
+                          notBefore: 2018-06-15T16:57:39
+                          notAfter: 2048-07-27T16:57:39
+                        keyUsage:
+                        - Digital Signature
+                        - Non Repudiation
+                        - Key CertSign
+                        - CRL Sign
+                        certificateType: X.509
+                      type: PEM
+                    keyStore:
+                      fileName: cert.pem
+                      type: PEM
+                      cn: www.example.com
+                      san: []
+                      expirationDate: 2022-08-13
+                    ciphers:
+                      aes128GcmSha256: true
+                      aes128Sha256: false
+                      aes256GcmSha384: false
+                      aes256Sha256: false
+                      dheRsaAes128Sha256: false
+                      dheRsaAes256GcmSha384: false
+                      dheRsaAes256Sha256: false
+                      ecdheEcdsaAes128GcmSha256: true
+                      ecdheEcdsaAes128Sha1: false
+                      ecdheEcdsaAes256GcmSha384: true
+                      ecdheEcdsaAes256Sha1: false
+                      ecdheRsaAes128GcmSha256: true
+                      ecdheRsaAes128Sha1: false
+                      ecdheRsaAes256GcmSha384: true
+                      ecdheRsaAes256Sha1: false
+                      ecdheEcdsaChacha20Poly1305: false
+                      ecdheRsaChacha20Poly1305: false
+                      dheRsaChacha20Poly1305: false
+                      tlsAes256GcmSha384: true
+                      tlsChacha20Poly1305Sha256: true
+                      tlsAes128GcmSha256: true
+                    type: custom
+          description: ""
+          x-amf-mediaType: application/json
+        "404":
+          content:
+            application/json:
+              schema:
+                type: object
+          description: ""
+          x-amf-mediaType: application/json
+    patch:
+      description: Update an existing TLS context
+      parameters:
+      - description: The Organization id where the Private Space lives.
+        in: path
+        name: orgId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: privateSpaceId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: contextId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PrivateSpaceTlsContext'
+          description: ""
+          x-amf-mediaType: application/json
+        "202":
+          content:
+            application/json:
+              schema:
+                type: object
+                x-amf-examples:
+                  response:
+                    id: 9b4832de-4177-4d0d-a665-6ce205c1e1be
+                    name: certs with trust store and key store
+                    trustStore:
+                      fileName: cert.pem
+                      expirationDate: 2022-08-13
+                      dnList:
+                      - issuer:
+                          commonName: www.example.com
+                          countryName: US
+                          localityName: SF
+                          organizationName: Example
+                          organizationUnit: Engineering
+                          state: CA
+                        subject:
+                          commonName: www.example2.com
+                          countryName: US
+                          localityName: SF
+                          organizationName: Example2
+                          organizationUnit: Engineering
+                          state: CA
+                        version: "3"
+                        serialNumber: CHD08323DSD
+                        signatureAlgorithm: SHA256WITHRSA
+                        publicKeyAlgorithm: RSA
+                        basicConstraints:
+                          certificateAuthority: true
+                        validity:
+                          notBefore: 2018-06-15T16:57:39
+                          notAfter: 2048-07-27T16:57:39
+                        keyUsage:
+                        - Digital Signature
+                        - Non Repudiation
+                        - Key CertSign
+                        - CRL Sign
+                        certificateType: X.509
+                      type: PEM
+                    keyStore:
+                      fileName: cert.pem
+                      type: PEM
+                      cn: www.example.com
+                      san: []
+                      expirationDate: 2022-08-13
+                    ciphers:
+                      aes128GcmSha256: true
+                      aes128Sha256: false
+                      aes256GcmSha384: false
+                      aes256Sha256: false
+                      dheRsaAes128Sha256: false
+                      dheRsaAes256GcmSha384: false
+                      dheRsaAes256Sha256: false
+                      ecdheEcdsaAes128GcmSha256: true
+                      ecdheEcdsaAes128Sha1: false
+                      ecdheEcdsaAes256GcmSha384: true
+                      ecdheEcdsaAes256Sha1: false
+                      ecdheRsaAes128GcmSha256: true
+                      ecdheRsaAes128Sha1: false
+                      ecdheRsaAes256GcmSha384: true
+                      ecdheRsaAes256Sha1: false
+                      ecdheEcdsaChacha20Poly1305: false
+                      ecdheRsaChacha20Poly1305: false
+                      dheRsaChacha20Poly1305: false
+                      tlsAes256GcmSha384: true
+                      tlsChacha20Poly1305Sha256: true
+                      tlsAes128GcmSha256: true
+                    type: custom
+          description: ""
+          x-amf-mediaType: application/json
+    x-amf-description: Get an entity representing a tlsContext
+  /organizations/{orgId}/privatespaces/{privateSpaceId}/logs: {}
+  /organizations/{orgId}/privatespaces/{privateSpaceId}/logs/ingress:
+    get:
+      description: download ingress logs in ascending order
+      parameters:
+      - description: The Organization id where the Private Space lives.
+        in: path
+        name: orgId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: privateSpaceId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/octet-stream:
+              schema:
+                type: object
+          description: ""
+          headers:
+            transfer-encoding:
+              schema:
+                enum:
+                - chunked
+                type: string
+          x-amf-mediaType: application/octet-stream
+  /organizations/{orgId}: {}
+  /organizations/{orgId}/transitgateways:
+    get:
+      description: get list of TGW connections assocated with an organization.
+      parameters:
+      - in: path
+        name: orgId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/PrivateSpaceTransitGateway'
+                type: array
+          description: ""
+          headers:
+            ETag:
+              description: The current value of the entity tag for the requested variant
+              schema:
+                type: string
+                x-amf-required: false
+          x-amf-mediaType: application/json
+        "415":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type'
+          description: ""
+          x-amf-mediaType: application/json
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type'
+          description: ""
+          headers:
+            Retry-After:
+              schema:
+                type: string
+          x-amf-mediaType: application/json
+    x-amf-description: The collection of transitgateways
+  /organizations/{orgId}/transitgateways/{tgwId}:
+    delete:
+      description: Remove the Transit gateway from your Anypoint Platform organization
+      parameters:
+      - in: path
+        name: orgId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: tgwId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content: {}
+          description: ""
+  /organizations/{orgId}/transitgateways/{tgwId}/routes:
+    get:
+      description: get TGW routes configured for a gateway
+      parameters:
+      - in: path
+        name: orgId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: tgwId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content: {}
+          description: ""
+  /organizations/{orgId}/targets:
+    get:
+      description: get list of target deployments within an organization
+      parameters:
+      - in: path
+        name: orgId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/TargetInfo'
+                type: array
+          description: ""
+          headers:
+            ETag:
+              description: The current value of the entity tag for the requested variant
+              schema:
+                type: string
+                x-amf-required: false
+          x-amf-mediaType: application/json
+        "415":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type'
+          description: ""
+          x-amf-mediaType: application/json
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type'
+          description: ""
+          headers:
+            Retry-After:
+              schema:
+                type: string
+          x-amf-mediaType: application/json
+    x-amf-description: The collection of targets
+  /organizations/{orgId}/targets/{id}:
+    get:
+      description: get the target
+      parameters:
+      - in: path
+        name: orgId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TargetInfo'
+          description: ""
+          x-amf-mediaType: application/json
+components:
+  schemas:
+    PrivateSpace:
+      example:
+        globalSpaceStatus:
+          cluster:
+          - ingress:
+              lastSeenTimeStamp: 9.301444243932576
+              message: message
+              status: status
+            fabric:
+              lastSeenTimeStamp: 7.061401241503109
+              message: message
+              status: status
+            infra:
+              lastSeenTimeStamp: 2.3021358869347655
+              message: message
+              status: status
+          - ingress:
+              lastSeenTimeStamp: 9.301444243932576
+              message: message
+              status: status
+            fabric:
+              lastSeenTimeStamp: 7.061401241503109
+              message: message
+              status: status
+            infra:
+              lastSeenTimeStamp: 2.3021358869347655
+              message: message
+              status: status
+          space:
+            lastSeenTimeStamp: 5.637376656633329
+            message: message
+            status: status
+          network:
+            lastSeenTimeStamp: 3.616076749251911
+            message: message
+            status: status
+        environments:
+          type: type
+          businessGroups:
+          - businessGroups
+          - businessGroups
+        managedFirewallRules:
+        - protocol: protocol
+          fromPort: 0
+          cidrBlock: cidrBlock
+          toPort: 6
+          type: inbound
+        - protocol: protocol
+          fromPort: 0
+          cidrBlock: cidrBlock
+          toPort: 6
+          type: inbound
+        statusMessage: statusMessage
+        network:
+          inboundStaticIps:
+          - inboundStaticIps
+          - inboundStaticIps
+          internalDns:
+            specialDomains:
+            - specialDomains
+            - specialDomains
+            dnsServers:
+            - dnsServers
+            - dnsServers
+          dnsTarget: dnsTarget
+          vpcId: vpcId
+          cidrBlock: 10.0.0.0/16
+          outboundStaticIps:
+          - outboundStaticIps
+          - outboundStaticIps
+          internalDnsTarget: internalDnsTarget
+          region: region
+        organizationId: organizationId
+        name: name
+        provisioning:
+          message: message
+          status: status
+        id: id
+        region: region
+        firewallRules:
+        - protocol: protocol
+          fromPort: 0
+          cidrBlock: cidrBlock
+          toPort: 6
+          type: inbound
+        - protocol: protocol
+          fromPort: 0
+          cidrBlock: cidrBlock
+          toPort: 6
+          type: inbound
+        ingressConfiguration:
+          protocol: https-redirect
+          readResponseTimeout: 528
+          logs:
+            portLogLevel: ERROR
+            filters:
+            - level: level
+              ip: ip
+            - level: level
+              ip: ip
+          deployment:
+            lastSeenTimestamp: 5.962133916683182
+            status: status
+        status: status
+        enableIAMRole: true
+      properties:
+        id:
+          description: The id of the Private Space.
+          type: string
+        name:
+          description: The name of the Private Space.
+          type: string
+        status:
+          type: string
+        statusMessage:
+          description: The last reported infra status message.
+          type: string
+        provisioning:
+          $ref: '#/components/schemas/PrivateSpace_provisioning'
+        region:
+          description: |
+            [Deprecated - will be removed when UI is updated] The region of the Private Space
+          type: string
+        organizationId:
+          description: The parent organization ID of the Private Space
+          type: string
+        managedFirewallRules:
+          description: |
+            [Deprecated - will be removed when UI is updated] The firewall rules for the Private Space
+          items:
+            $ref: '#/components/schemas/FirewallRule'
+          type: array
+        environments:
+          $ref: '#/components/schemas/environments'
+        network:
+          $ref: '#/components/schemas/network'
+        firewallRules:
+          description: |
+            The firewall rules for the Private Space
+          items:
+            $ref: '#/components/schemas/FirewallRule'
+          type: array
+        ingressConfiguration:
+          $ref: '#/components/schemas/ingressConfiguration'
+        enableIAMRole:
+          description: "If true, application deployed to this space will have the\
+            \ Private Space IAM role attached to the service account."
+          type: boolean
+        globalSpaceStatus:
+          $ref: '#/components/schemas/globalSpaceStatus'
+      required:
+      - environments
+      - firewallRules
+      - id
+      - ingressConfiguration
+      - name
+      - network
+      - organizationId
+      type: object
+      x-amf-examples:
+        create-response:
+          id: b72b876d-f63d-11e7-a06c-080027adee7c
+          name: my-private-space
+          organizationId: b72b876d-f63d-11e7-a06c-080027adee7d
+          status: Active
+          network:
+            region: us-east-1
+            cidrBlock: 10.0.0.0/18
+          firewallRules:
+          - cidrBlock: 0.0.0.0/0
+            protocol: tcp
+            fromPort: 8081
+            toPort: 8081
+            type: inbound
+          - cidrBlock: 0.0.0.0/0
+            protocol: tcp
+            fromPort: 8082
+            toPort: 8082
+            type: inbound
+          - cidrBlock: 0.0.0.0/0
+            protocol: tcp
+            fromPort: 0
+            toPort: 65535
+            type: outbound
+          environments:
+            type: all
+            businessGroups:
+            - all
+          logForwarding:
+            anypointMonitoring: true
+          ingressConfiguration:
+            readResponseTimeout: 300
+            logs:
+              portLogLevel: ERROR
+              filters: []
+            protocol: https-redirect
+    type:
+      properties:
+        message:
+          description: |
+            Human readable error description.
+          type: string
+        errors:
+          description: |
+            Error list use to describe the set of validations that has failed. Only required in case
+            HTTP error code is not enough to describe the failure case.
+          items:
+            $ref: '#/components/schemas/type_errors_inner'
+          type: array
+      required:
+      - message
+      type: object
+      x-amf-examples:
+        amf_example_1:
+          message: Not Supported  Content-Type
+        example_1:
+          message: Too Many Requests
+        amf_example_2:
+          message: You are not authorized to perform this request
+        example_0:
+          message: Invalid token
+        bad-rq:
+          message: Invalid Request
+          errors:
+          - code: XX005
+            message: Invalid Name Format.
+          - code: XX006
+            message: Reached Maximum number of Resources
+    PrivateSpacePost:
+      example:
+        environments:
+          type: type
+          businessGroups:
+          - businessGroups
+          - businessGroups
+        name: name
+        managedFirewallRules:
+        - protocol: protocol
+          fromPort: 0
+          cidrBlock: cidrBlock
+          toPort: 6
+          type: inbound
+        - protocol: protocol
+          fromPort: 0
+          cidrBlock: cidrBlock
+          toPort: 6
+          type: inbound
+        firewallRules:
+        - protocol: protocol
+          fromPort: 0
+          cidrBlock: cidrBlock
+          toPort: 6
+          type: inbound
+        - protocol: protocol
+          fromPort: 0
+          cidrBlock: cidrBlock
+          toPort: 6
+          type: inbound
+        network:
+          internalDns:
+            specialDomains:
+            - specialDomains
+            - specialDomains
+            dnsServers:
+            - dnsServers
+            - dnsServers
+          vpcId: vpcId
+          cidrBlock: 10.0.0.0/16
+          region: region
+      properties:
+        name:
+          description: The name of the Private Space.
+          type: string
+        environments:
+          $ref: '#/components/schemas/environments_2'
+        network:
+          $ref: '#/components/schemas/network_3'
+        managedFirewallRules:
+          description: Deprecated
+          items:
+            $ref: '#/components/schemas/FirewallRule'
+          type: array
+        firewallRules:
+          description: |
+            The firewall rules for the Private Space
+          items:
+            $ref: '#/components/schemas/FirewallRule'
+          type: array
+      required:
+      - name
+      type: object
+      x-amf-examples:
+        create-request:
+          name: my-private-space
+    PrivateSpacePatch:
+      example:
+        environments:
+          type: type
+          businessGroups:
+          - businessGroups
+          - businessGroups
+        logForwarding:
+          anypointMonitoring: true
+        managedFirewallRules:
+        - protocol: protocol
+          fromPort: 0
+          cidrBlock: cidrBlock
+          toPort: 6
+          type: inbound
+        - protocol: protocol
+          fromPort: 0
+          cidrBlock: cidrBlock
+          toPort: 6
+          type: inbound
+        firewallRules:
+        - protocol: protocol
+          fromPort: 0
+          cidrBlock: cidrBlock
+          toPort: 6
+          type: inbound
+        - protocol: protocol
+          fromPort: 0
+          cidrBlock: cidrBlock
+          toPort: 6
+          type: inbound
+        ingressConfiguration:
+          protocol: https-redirect
+          readResponseTimeout: 289
+          logs:
+            portLogLevel: ERROR
+            filters:
+            - level: level
+              ip: ip
+            - level: level
+              ip: ip
+          deployment:
+            lastSeenTimestamp: 5.962133916683182
+            status: status
+        network:
+          internalDns:
+            specialDomains:
+            - specialDomains
+            - specialDomains
+            dnsServers:
+            - dnsServers
+            - dnsServers
+          vpcId: vpcId
+          cidrBlock: 10.0.0.0/16
+          region: region
+        enableIAMRole: true
+      properties:
+        environments:
+          $ref: '#/components/schemas/environments_4'
+        network:
+          $ref: '#/components/schemas/network_5'
+        managedFirewallRules:
+          description: Deprecated
+          items:
+            $ref: '#/components/schemas/FirewallRule'
+          type: array
+        firewallRules:
+          description: |
+            The firewall rules for the Private Space
+          items:
+            $ref: '#/components/schemas/FirewallRule'
+          type: array
+        logForwarding:
+          $ref: '#/components/schemas/logForwarding'
+        ingressConfiguration:
+          $ref: '#/components/schemas/ingressConfiguration_6'
+        enableIAMRole:
+          description: "If true, application deployed to this space will have the\
+            \ Private Space IAM role attached to the service account."
+          type: boolean
+      required:
+      - environments
+      - firewallRules
+      - ingressConfiguration
+      - logForwarding
+      - network
+      type: object
+    IAMRole:
+      example:
+        organizationId: organizationId
+        spaceId: spaceId
+        roles:
+        - roles
+        - roles
+        message: message
+      properties:
+        roles:
+          description: IAM roles associated with the space
+          items:
+            type: string
+          type: array
+        organizationId:
+          description: The parent organization ID of the space
+          type: string
+        spaceId:
+          description: id of the space.
+          type: string
+        message:
+          description: IAM roles associated with the space
+          type: string
+      required:
+      - organizationId
+      - roles
+      - spaceId
+      type: object
+    PrivateSpaceConnection:
+      example:
+        name: name
+        vpns:
+        - vpnConnectionStatus: vpnConnectionStatus
+          staticRoutes:
+          - staticRoutes
+          - staticRoutes
+          remoteAsn: 0.8008281904610115
+          vpnTunnels:
+          - startupAction: startupAction
+            phase2IntegrityAlgorithms:
+            - phase2IntegrityAlgorithms
+            - phase2IntegrityAlgorithms
+            psk: psk
+            phase1IntegrityAlgorithms:
+            - phase1IntegrityAlgorithms
+            - phase1IntegrityAlgorithms
+            phase1EncryptionAlgorithms:
+            - phase1EncryptionAlgorithms
+            - phase1EncryptionAlgorithms
+            vpnConnectionId: vpnConnectionId
+            statusMessage: statusMessage
+            remotePtpIpAddress: remotePtpIpAddress
+            phase2DhGroups:
+            - 2
+            - 2
+            phase1DhGroups:
+            - 5
+            - 5
+            rekeyFuzz: 5
+            ptpCidr: ptpCidr
+            ikeVersions:
+            - ikeVersions
+            - ikeVersions
+            phase2EncryptionAlgorithms:
+            - phase2EncryptionAlgorithms
+            - phase2EncryptionAlgorithms
+            lastStatusChange: lastStatusChange
+            dPDTimeoutAction: dPDTimeoutAction
+            rekeyMarginInSeconds: 1
+            localExternalIpAddress: localExternalIpAddress
+            localPtpIpAddress: localPtpIpAddress
+            acceptedRouteCount: 7.061401241503109
+            status: status
+          - startupAction: startupAction
+            phase2IntegrityAlgorithms:
+            - phase2IntegrityAlgorithms
+            - phase2IntegrityAlgorithms
+            psk: psk
+            phase1IntegrityAlgorithms:
+            - phase1IntegrityAlgorithms
+            - phase1IntegrityAlgorithms
+            phase1EncryptionAlgorithms:
+            - phase1EncryptionAlgorithms
+            - phase1EncryptionAlgorithms
+            vpnConnectionId: vpnConnectionId
+            statusMessage: statusMessage
+            remotePtpIpAddress: remotePtpIpAddress
+            phase2DhGroups:
+            - 2
+            - 2
+            phase1DhGroups:
+            - 5
+            - 5
+            rekeyFuzz: 5
+            ptpCidr: ptpCidr
+            ikeVersions:
+            - ikeVersions
+            - ikeVersions
+            phase2EncryptionAlgorithms:
+            - phase2EncryptionAlgorithms
+            - phase2EncryptionAlgorithms
+            lastStatusChange: lastStatusChange
+            dPDTimeoutAction: dPDTimeoutAction
+            rekeyMarginInSeconds: 1
+            localExternalIpAddress: localExternalIpAddress
+            localPtpIpAddress: localPtpIpAddress
+            acceptedRouteCount: 7.061401241503109
+            status: status
+          name: name
+          connectionId: connectionId
+          localAsn: 6.027456183070403
+          connectionName: connectionName
+          vpnId: vpnId
+          remoteIpAddress: remoteIpAddress
+        - vpnConnectionStatus: vpnConnectionStatus
+          staticRoutes:
+          - staticRoutes
+          - staticRoutes
+          remoteAsn: 0.8008281904610115
+          vpnTunnels:
+          - startupAction: startupAction
+            phase2IntegrityAlgorithms:
+            - phase2IntegrityAlgorithms
+            - phase2IntegrityAlgorithms
+            psk: psk
+            phase1IntegrityAlgorithms:
+            - phase1IntegrityAlgorithms
+            - phase1IntegrityAlgorithms
+            phase1EncryptionAlgorithms:
+            - phase1EncryptionAlgorithms
+            - phase1EncryptionAlgorithms
+            vpnConnectionId: vpnConnectionId
+            statusMessage: statusMessage
+            remotePtpIpAddress: remotePtpIpAddress
+            phase2DhGroups:
+            - 2
+            - 2
+            phase1DhGroups:
+            - 5
+            - 5
+            rekeyFuzz: 5
+            ptpCidr: ptpCidr
+            ikeVersions:
+            - ikeVersions
+            - ikeVersions
+            phase2EncryptionAlgorithms:
+            - phase2EncryptionAlgorithms
+            - phase2EncryptionAlgorithms
+            lastStatusChange: lastStatusChange
+            dPDTimeoutAction: dPDTimeoutAction
+            rekeyMarginInSeconds: 1
+            localExternalIpAddress: localExternalIpAddress
+            localPtpIpAddress: localPtpIpAddress
+            acceptedRouteCount: 7.061401241503109
+            status: status
+          - startupAction: startupAction
+            phase2IntegrityAlgorithms:
+            - phase2IntegrityAlgorithms
+            - phase2IntegrityAlgorithms
+            psk: psk
+            phase1IntegrityAlgorithms:
+            - phase1IntegrityAlgorithms
+            - phase1IntegrityAlgorithms
+            phase1EncryptionAlgorithms:
+            - phase1EncryptionAlgorithms
+            - phase1EncryptionAlgorithms
+            vpnConnectionId: vpnConnectionId
+            statusMessage: statusMessage
+            remotePtpIpAddress: remotePtpIpAddress
+            phase2DhGroups:
+            - 2
+            - 2
+            phase1DhGroups:
+            - 5
+            - 5
+            rekeyFuzz: 5
+            ptpCidr: ptpCidr
+            ikeVersions:
+            - ikeVersions
+            - ikeVersions
+            phase2EncryptionAlgorithms:
+            - phase2EncryptionAlgorithms
+            - phase2EncryptionAlgorithms
+            lastStatusChange: lastStatusChange
+            dPDTimeoutAction: dPDTimeoutAction
+            rekeyMarginInSeconds: 1
+            localExternalIpAddress: localExternalIpAddress
+            localPtpIpAddress: localPtpIpAddress
+            acceptedRouteCount: 7.061401241503109
+            status: status
+          name: name
+          connectionId: connectionId
+          localAsn: 6.027456183070403
+          connectionName: connectionName
+          vpnId: vpnId
+          remoteIpAddress: remoteIpAddress
+        id: id
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        vpns:
+          items:
+            $ref: '#/components/schemas/items'
+          type: array
+      required:
+      - id
+      - name
+      - vpns
+      type: object
+      x-amf-examples:
+        create-response:
+          id: 83d77850-04ee-4368-8122-192f760913de
+          name: hello-connection
+          vpns:
+          - id: vpn-1234556
+            vpnId: 83d77850-04ee-4368-8122-192f760913de
+            name: test-vpn-dev
+            localAsn: 65001
+            remoteAsn: 65002
+            remoteIpAddress: 1.2.3.4
+            connectionStatus: available
+            staticRoutes: []
+            vpnTunnels: []
+            vpnTunnelsConfig: []
+          - id: vpn-1234556
+            name: test-vpn-dev-bak
+            vpnId: 83d77850-04ee-4368-8122-192f760913df
+            localAsn: 65001
+            remoteAsn: 65002
+            remoteIpAddress: 1.2.3.5
+            connectionStatus: available
+            staticRoutes: []
+            vpnTunnels: []
+            vpnTunnelsConfig: []
+    PrivateSpaceConnectionPost:
+      example:
+        name: name
+        vpns:
+        - vpnConnectionStatus: vpnConnectionStatus
+          staticRoutes:
+          - staticRoutes
+          - staticRoutes
+          remoteAsn: 0.8008281904610115
+          vpnTunnels:
+          - startupAction: startupAction
+            phase2IntegrityAlgorithms:
+            - phase2IntegrityAlgorithms
+            - phase2IntegrityAlgorithms
+            psk: psk
+            phase1IntegrityAlgorithms:
+            - phase1IntegrityAlgorithms
+            - phase1IntegrityAlgorithms
+            phase1EncryptionAlgorithms:
+            - phase1EncryptionAlgorithms
+            - phase1EncryptionAlgorithms
+            vpnConnectionId: vpnConnectionId
+            statusMessage: statusMessage
+            remotePtpIpAddress: remotePtpIpAddress
+            phase2DhGroups:
+            - 2
+            - 2
+            phase1DhGroups:
+            - 5
+            - 5
+            rekeyFuzz: 5
+            ptpCidr: ptpCidr
+            ikeVersions:
+            - ikeVersions
+            - ikeVersions
+            phase2EncryptionAlgorithms:
+            - phase2EncryptionAlgorithms
+            - phase2EncryptionAlgorithms
+            lastStatusChange: lastStatusChange
+            dPDTimeoutAction: dPDTimeoutAction
+            rekeyMarginInSeconds: 1
+            localExternalIpAddress: localExternalIpAddress
+            localPtpIpAddress: localPtpIpAddress
+            acceptedRouteCount: 7.061401241503109
+            status: status
+          - startupAction: startupAction
+            phase2IntegrityAlgorithms:
+            - phase2IntegrityAlgorithms
+            - phase2IntegrityAlgorithms
+            psk: psk
+            phase1IntegrityAlgorithms:
+            - phase1IntegrityAlgorithms
+            - phase1IntegrityAlgorithms
+            phase1EncryptionAlgorithms:
+            - phase1EncryptionAlgorithms
+            - phase1EncryptionAlgorithms
+            vpnConnectionId: vpnConnectionId
+            statusMessage: statusMessage
+            remotePtpIpAddress: remotePtpIpAddress
+            phase2DhGroups:
+            - 2
+            - 2
+            phase1DhGroups:
+            - 5
+            - 5
+            rekeyFuzz: 5
+            ptpCidr: ptpCidr
+            ikeVersions:
+            - ikeVersions
+            - ikeVersions
+            phase2EncryptionAlgorithms:
+            - phase2EncryptionAlgorithms
+            - phase2EncryptionAlgorithms
+            lastStatusChange: lastStatusChange
+            dPDTimeoutAction: dPDTimeoutAction
+            rekeyMarginInSeconds: 1
+            localExternalIpAddress: localExternalIpAddress
+            localPtpIpAddress: localPtpIpAddress
+            acceptedRouteCount: 7.061401241503109
+            status: status
+          name: name
+          connectionId: connectionId
+          localAsn: 6.027456183070403
+          connectionName: connectionName
+          vpnId: vpnId
+          remoteIpAddress: remoteIpAddress
+        - vpnConnectionStatus: vpnConnectionStatus
+          staticRoutes:
+          - staticRoutes
+          - staticRoutes
+          remoteAsn: 0.8008281904610115
+          vpnTunnels:
+          - startupAction: startupAction
+            phase2IntegrityAlgorithms:
+            - phase2IntegrityAlgorithms
+            - phase2IntegrityAlgorithms
+            psk: psk
+            phase1IntegrityAlgorithms:
+            - phase1IntegrityAlgorithms
+            - phase1IntegrityAlgorithms
+            phase1EncryptionAlgorithms:
+            - phase1EncryptionAlgorithms
+            - phase1EncryptionAlgorithms
+            vpnConnectionId: vpnConnectionId
+            statusMessage: statusMessage
+            remotePtpIpAddress: remotePtpIpAddress
+            phase2DhGroups:
+            - 2
+            - 2
+            phase1DhGroups:
+            - 5
+            - 5
+            rekeyFuzz: 5
+            ptpCidr: ptpCidr
+            ikeVersions:
+            - ikeVersions
+            - ikeVersions
+            phase2EncryptionAlgorithms:
+            - phase2EncryptionAlgorithms
+            - phase2EncryptionAlgorithms
+            lastStatusChange: lastStatusChange
+            dPDTimeoutAction: dPDTimeoutAction
+            rekeyMarginInSeconds: 1
+            localExternalIpAddress: localExternalIpAddress
+            localPtpIpAddress: localPtpIpAddress
+            acceptedRouteCount: 7.061401241503109
+            status: status
+          - startupAction: startupAction
+            phase2IntegrityAlgorithms:
+            - phase2IntegrityAlgorithms
+            - phase2IntegrityAlgorithms
+            psk: psk
+            phase1IntegrityAlgorithms:
+            - phase1IntegrityAlgorithms
+            - phase1IntegrityAlgorithms
+            phase1EncryptionAlgorithms:
+            - phase1EncryptionAlgorithms
+            - phase1EncryptionAlgorithms
+            vpnConnectionId: vpnConnectionId
+            statusMessage: statusMessage
+            remotePtpIpAddress: remotePtpIpAddress
+            phase2DhGroups:
+            - 2
+            - 2
+            phase1DhGroups:
+            - 5
+            - 5
+            rekeyFuzz: 5
+            ptpCidr: ptpCidr
+            ikeVersions:
+            - ikeVersions
+            - ikeVersions
+            phase2EncryptionAlgorithms:
+            - phase2EncryptionAlgorithms
+            - phase2EncryptionAlgorithms
+            lastStatusChange: lastStatusChange
+            dPDTimeoutAction: dPDTimeoutAction
+            rekeyMarginInSeconds: 1
+            localExternalIpAddress: localExternalIpAddress
+            localPtpIpAddress: localPtpIpAddress
+            acceptedRouteCount: 7.061401241503109
+            status: status
+          name: name
+          connectionId: connectionId
+          localAsn: 6.027456183070403
+          connectionName: connectionName
+          vpnId: vpnId
+          remoteIpAddress: remoteIpAddress
+      properties:
+        name:
+          type: string
+        vpns:
+          items:
+            $ref: '#/components/schemas/items'
+          type: array
+      required:
+      - name
+      - vpns
+      type: object
+      x-amf-examples:
+        create-request:
+          name: hello-connection
+          vpns:
+          - id: vpn-1234556
+            name: test-vpn-dev
+            vpnId: 83d77850-04ee-4368-8122-192f760913de
+            localAsn: 65001
+            remoteAsn: 65002
+            remoteIpAddress: 1.2.3.4
+            staticRoutes: []
+            vpnTunnels: []
+            vpnTunnelsConfig: []
+          - id: vpn-1234556
+            vpnId: 83d77850-04ee-4368-8122-192f760913df
+            name: test-vpn-dev-bak
+            localAsn: 65001
+            remoteAsn: 65002
+            remoteIpAddress: 1.2.3.5
+            staticRoutes: []
+            vpnTunnels: []
+            vpnTunnelsConfig: []
+    PrivateSpaceConnectionPatch:
+      example:
+        staticRoutes:
+        - staticRoutes
+        - staticRoutes
+        name: name
+        id: id
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        staticRoutes:
+          description: |
+            The CIDRs that the Cloudhub VPC will send traffic to via the VPN.
+          items:
+            type: string
+          type: array
+      required:
+      - id
+      - name
+      type: object
+    PrivateSpaceConnection_1:
+      example:
+        name: name
+        vpns:
+        - vpnConnectionStatus: vpnConnectionStatus
+          staticRoutes:
+          - staticRoutes
+          - staticRoutes
+          remoteAsn: 0.8008281904610115
+          vpnTunnels:
+          - startupAction: startupAction
+            phase2IntegrityAlgorithms:
+            - phase2IntegrityAlgorithms
+            - phase2IntegrityAlgorithms
+            psk: psk
+            phase1IntegrityAlgorithms:
+            - phase1IntegrityAlgorithms
+            - phase1IntegrityAlgorithms
+            phase1EncryptionAlgorithms:
+            - phase1EncryptionAlgorithms
+            - phase1EncryptionAlgorithms
+            vpnConnectionId: vpnConnectionId
+            statusMessage: statusMessage
+            remotePtpIpAddress: remotePtpIpAddress
+            phase2DhGroups:
+            - 2
+            - 2
+            phase1DhGroups:
+            - 5
+            - 5
+            rekeyFuzz: 5
+            ptpCidr: ptpCidr
+            ikeVersions:
+            - ikeVersions
+            - ikeVersions
+            phase2EncryptionAlgorithms:
+            - phase2EncryptionAlgorithms
+            - phase2EncryptionAlgorithms
+            lastStatusChange: lastStatusChange
+            dPDTimeoutAction: dPDTimeoutAction
+            rekeyMarginInSeconds: 1
+            localExternalIpAddress: localExternalIpAddress
+            localPtpIpAddress: localPtpIpAddress
+            acceptedRouteCount: 7.061401241503109
+            status: status
+          - startupAction: startupAction
+            phase2IntegrityAlgorithms:
+            - phase2IntegrityAlgorithms
+            - phase2IntegrityAlgorithms
+            psk: psk
+            phase1IntegrityAlgorithms:
+            - phase1IntegrityAlgorithms
+            - phase1IntegrityAlgorithms
+            phase1EncryptionAlgorithms:
+            - phase1EncryptionAlgorithms
+            - phase1EncryptionAlgorithms
+            vpnConnectionId: vpnConnectionId
+            statusMessage: statusMessage
+            remotePtpIpAddress: remotePtpIpAddress
+            phase2DhGroups:
+            - 2
+            - 2
+            phase1DhGroups:
+            - 5
+            - 5
+            rekeyFuzz: 5
+            ptpCidr: ptpCidr
+            ikeVersions:
+            - ikeVersions
+            - ikeVersions
+            phase2EncryptionAlgorithms:
+            - phase2EncryptionAlgorithms
+            - phase2EncryptionAlgorithms
+            lastStatusChange: lastStatusChange
+            dPDTimeoutAction: dPDTimeoutAction
+            rekeyMarginInSeconds: 1
+            localExternalIpAddress: localExternalIpAddress
+            localPtpIpAddress: localPtpIpAddress
+            acceptedRouteCount: 7.061401241503109
+            status: status
+          name: name
+          connectionId: connectionId
+          localAsn: 6.027456183070403
+          connectionName: connectionName
+          vpnId: vpnId
+          remoteIpAddress: remoteIpAddress
+        - vpnConnectionStatus: vpnConnectionStatus
+          staticRoutes:
+          - staticRoutes
+          - staticRoutes
+          remoteAsn: 0.8008281904610115
+          vpnTunnels:
+          - startupAction: startupAction
+            phase2IntegrityAlgorithms:
+            - phase2IntegrityAlgorithms
+            - phase2IntegrityAlgorithms
+            psk: psk
+            phase1IntegrityAlgorithms:
+            - phase1IntegrityAlgorithms
+            - phase1IntegrityAlgorithms
+            phase1EncryptionAlgorithms:
+            - phase1EncryptionAlgorithms
+            - phase1EncryptionAlgorithms
+            vpnConnectionId: vpnConnectionId
+            statusMessage: statusMessage
+            remotePtpIpAddress: remotePtpIpAddress
+            phase2DhGroups:
+            - 2
+            - 2
+            phase1DhGroups:
+            - 5
+            - 5
+            rekeyFuzz: 5
+            ptpCidr: ptpCidr
+            ikeVersions:
+            - ikeVersions
+            - ikeVersions
+            phase2EncryptionAlgorithms:
+            - phase2EncryptionAlgorithms
+            - phase2EncryptionAlgorithms
+            lastStatusChange: lastStatusChange
+            dPDTimeoutAction: dPDTimeoutAction
+            rekeyMarginInSeconds: 1
+            localExternalIpAddress: localExternalIpAddress
+            localPtpIpAddress: localPtpIpAddress
+            acceptedRouteCount: 7.061401241503109
+            status: status
+          - startupAction: startupAction
+            phase2IntegrityAlgorithms:
+            - phase2IntegrityAlgorithms
+            - phase2IntegrityAlgorithms
+            psk: psk
+            phase1IntegrityAlgorithms:
+            - phase1IntegrityAlgorithms
+            - phase1IntegrityAlgorithms
+            phase1EncryptionAlgorithms:
+            - phase1EncryptionAlgorithms
+            - phase1EncryptionAlgorithms
+            vpnConnectionId: vpnConnectionId
+            statusMessage: statusMessage
+            remotePtpIpAddress: remotePtpIpAddress
+            phase2DhGroups:
+            - 2
+            - 2
+            phase1DhGroups:
+            - 5
+            - 5
+            rekeyFuzz: 5
+            ptpCidr: ptpCidr
+            ikeVersions:
+            - ikeVersions
+            - ikeVersions
+            phase2EncryptionAlgorithms:
+            - phase2EncryptionAlgorithms
+            - phase2EncryptionAlgorithms
+            lastStatusChange: lastStatusChange
+            dPDTimeoutAction: dPDTimeoutAction
+            rekeyMarginInSeconds: 1
+            localExternalIpAddress: localExternalIpAddress
+            localPtpIpAddress: localPtpIpAddress
+            acceptedRouteCount: 7.061401241503109
+            status: status
+          name: name
+          connectionId: connectionId
+          localAsn: 6.027456183070403
+          connectionName: connectionName
+          vpnId: vpnId
+          remoteIpAddress: remoteIpAddress
+        id: id
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        vpns:
+          items:
+            $ref: '#/components/schemas/items'
+          type: array
+      required:
+      - id
+      - name
+      - vpns
+      type: object
+    PrivateSpaceConnectionVpnPatch:
+      example:
+        staticRoutes:
+        - staticRoutes
+        - staticRoutes
+        remoteAsn: 0.8008281904610115
+        vpnTunnels:
+        - startupAction: startupAction
+          phase2IntegrityAlgorithms:
+          - phase2IntegrityAlgorithms
+          - phase2IntegrityAlgorithms
+          psk: psk
+          phase1IntegrityAlgorithms:
+          - phase1IntegrityAlgorithms
+          - phase1IntegrityAlgorithms
+          phase1EncryptionAlgorithms:
+          - phase1EncryptionAlgorithms
+          - phase1EncryptionAlgorithms
+          vpnConnectionId: vpnConnectionId
+          statusMessage: statusMessage
+          remotePtpIpAddress: remotePtpIpAddress
+          phase2DhGroups:
+          - 2
+          - 2
+          phase1DhGroups:
+          - 5
+          - 5
+          rekeyFuzz: 5
+          ptpCidr: ptpCidr
+          ikeVersions:
+          - ikeVersions
+          - ikeVersions
+          phase2EncryptionAlgorithms:
+          - phase2EncryptionAlgorithms
+          - phase2EncryptionAlgorithms
+          lastStatusChange: lastStatusChange
+          dPDTimeoutAction: dPDTimeoutAction
+          rekeyMarginInSeconds: 1
+          localExternalIpAddress: localExternalIpAddress
+          localPtpIpAddress: localPtpIpAddress
+          acceptedRouteCount: 7.061401241503109
+          status: status
+        - startupAction: startupAction
+          phase2IntegrityAlgorithms:
+          - phase2IntegrityAlgorithms
+          - phase2IntegrityAlgorithms
+          psk: psk
+          phase1IntegrityAlgorithms:
+          - phase1IntegrityAlgorithms
+          - phase1IntegrityAlgorithms
+          phase1EncryptionAlgorithms:
+          - phase1EncryptionAlgorithms
+          - phase1EncryptionAlgorithms
+          vpnConnectionId: vpnConnectionId
+          statusMessage: statusMessage
+          remotePtpIpAddress: remotePtpIpAddress
+          phase2DhGroups:
+          - 2
+          - 2
+          phase1DhGroups:
+          - 5
+          - 5
+          rekeyFuzz: 5
+          ptpCidr: ptpCidr
+          ikeVersions:
+          - ikeVersions
+          - ikeVersions
+          phase2EncryptionAlgorithms:
+          - phase2EncryptionAlgorithms
+          - phase2EncryptionAlgorithms
+          lastStatusChange: lastStatusChange
+          dPDTimeoutAction: dPDTimeoutAction
+          rekeyMarginInSeconds: 1
+          localExternalIpAddress: localExternalIpAddress
+          localPtpIpAddress: localPtpIpAddress
+          acceptedRouteCount: 7.061401241503109
+          status: status
+        name: name
+        localAsn: 6.027456183070403
+        id: id
+        remoteIpAddress: remoteIpAddress
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        remoteAsn:
+          description: |
+            The ASN of the customer's outside network, used by VPNs utilizing BGP for routes.
+          type: number
+        localAsn:
+          description: |
+            The ASN of the customer's cloudhub network, used by VPNs utilizing BGP for routes.
+          type: number
+        remoteIpAddress:
+          description: |
+            The IP address of the customer's VPN device on their outside network
+          type: string
+        staticRoutes:
+          description: |
+            The CIDRs that the Cloudhub VPC will send traffic to via the VPN.
+          items:
+            type: string
+          type: array
+        vpnTunnels:
+          description: |
+            VPN tunnel configuration that the customer wants to be applied to their VPN connection.
+          items:
+            $ref: '#/components/schemas/items_7'
+          type: array
+      required:
+      - id
+      - remoteIpAddress
+      - staticRoutes
+      - vpnTunnels
+      type: object
+    PrivateSpaceTransitGateway:
+      example:
+        name: name
+        id: id
+        spec:
+          spaceName: spaceName
+          resourceShare:
+            id: id
+            account: account
+          region: region
+        status:
+          tgwResource: tgwResource
+          routes:
+          - routes
+          - routes
+          attachment: attachment
+          gateway: gateway
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        spec:
+          $ref: '#/components/schemas/TgwSpec'
+        status:
+          $ref: '#/components/schemas/TgwStatus'
+      required:
+      - id
+      - name
+      - spec
+      - status
+      type: object
+      x-amf-examples:
+        create-response:
+          id: 83d77850-04ee-4368-8122-192f760913de
+          name: rtf-kamboocha
+          spec:
+            resourceShare:
+              id: 5e409a9d-49a7-456c-82d7-a6254738a18d
+              account: "25102306"
+            region: us-east-1
+            networkIds:
+            - network-deployment-id1
+            spaceName: space
+          status:
+            gateway: unknown
+            attachment: unattached
+            tgwResource: http://aws.tgw.link.com
+            routes:
+            - 10.0.0.0/21
+            - 10.0.0.0/22
+    PrivateSpaceTransitGatewayPost:
+      example:
+        routes:
+        - routes
+        - routes
+        resourceShareId: resourceShareId
+        name: name
+        resourceShareAccount: resourceShareAccount
+      properties:
+        name:
+          type: string
+        resourceShareId:
+          type: string
+        resourceShareAccount:
+          type: string
+        routes:
+          items:
+            type: string
+          type: array
+      required:
+      - name
+      - resourceShareAccount
+      - resourceShareId
+      - routes
+      type: object
+      x-amf-examples:
+        create-request:
+          name: rtf-kamboocha
+          resourceShareId: 5e409a9d-49a7-456c-82d7-a6254738a18d
+          resourceShareAccount: "25102306"
+          region: us-east-1
+          routes:
+          - 10.0.0.0/19
+          - 10.0.0.0/20
+          - 10.0.0.0/21
+    PrivateSpaceTransitGatewayPatch:
+      example:
+        name: name
+      properties:
+        name:
+          type: string
+      required:
+      - name
+      type: object
+    PrivateSpaceTlsContext:
+      example:
+        keyStore:
+          san:
+          - san
+          - san
+          fileName: fileName
+          capathFileName: capathFileName
+          alias: alias
+          cn: cn
+          type: type
+          keyFileName: keyFileName
+          expirationDate: expirationDate
+        name: name
+        trustStore:
+          fileName: fileName
+          type: type
+          dnList:
+          - serialNumber: serialNumber
+            keyUsage:
+            - Digital Signature
+            - Digital Signature
+            - Digital Signature
+            - Digital Signature
+            - Digital Signature
+            subject:
+              commonName: commonName
+              localityName: localityName
+              organizationName: organizationName
+              organizationUnit: organizationUnit
+              countryName: countryName
+              state: state
+            subjectAlternativeName:
+            - subjectAlternativeName
+            - subjectAlternativeName
+            publicKeyAlgorithm: publicKeyAlgorithm
+            basicConstraints:
+              certificateAuthority: true
+            extendedKeyUsage:
+            - TLS Web server authentication
+            - TLS Web server authentication
+            - TLS Web server authentication
+            - TLS Web server authentication
+            - TLS Web server authentication
+            validity:
+              notAfter: notAfter
+              notBefore: notBefore
+            version: version
+            issuer:
+              commonName: commonName
+              localityName: localityName
+              organizationName: organizationName
+              organizationUnit: organizationUnit
+              countryName: countryName
+              state: state
+            signatureAlgorithm: signatureAlgorithm
+            certificateType: certificateType
+          - serialNumber: serialNumber
+            keyUsage:
+            - Digital Signature
+            - Digital Signature
+            - Digital Signature
+            - Digital Signature
+            - Digital Signature
+            subject:
+              commonName: commonName
+              localityName: localityName
+              organizationName: organizationName
+              organizationUnit: organizationUnit
+              countryName: countryName
+              state: state
+            subjectAlternativeName:
+            - subjectAlternativeName
+            - subjectAlternativeName
+            publicKeyAlgorithm: publicKeyAlgorithm
+            basicConstraints:
+              certificateAuthority: true
+            extendedKeyUsage:
+            - TLS Web server authentication
+            - TLS Web server authentication
+            - TLS Web server authentication
+            - TLS Web server authentication
+            - TLS Web server authentication
+            validity:
+              notAfter: notAfter
+              notBefore: notBefore
+            version: version
+            issuer:
+              commonName: commonName
+              localityName: localityName
+              organizationName: organizationName
+              organizationUnit: organizationUnit
+              countryName: countryName
+              state: state
+            signatureAlgorithm: signatureAlgorithm
+            certificateType: certificateType
+          expirationDate: expirationDate
+        ciphers:
+          dheRsaChacha20Poly1305: false
+          tlsChacha20Poly1305Sha256: true
+          dheRsaAes256Sha256: false
+          dheRsaAes128Sha256: false
+          ecdheEcdsaAes128GcmSha256: true
+          aes128GcmSha256: false
+          tlsAes128GcmSha256: true
+          aes128Sha256: false
+          ecdheRsaAes128GcmSha256: true
+          ecdheRsaChacha20Poly1305: false
+          tlsAes256GcmSha384: true
+          dheRsaAes256GcmSha384: false
+          ecdheEcdsaAes256Sha1: false
+          ecdheEcdsaChacha20Poly1305: false
+          aes256Sha256: false
+          aes256GcmSha384: false
+          ecdheRsaAes256Sha1: false
+          ecdheRsaAes256GcmSha384: true
+          ecdheEcdsaAes256GcmSha384: true
+          ecdheRsaAes128Sha1: false
+          ecdheEcdsaAes128Sha1: false
+        id: id
+        type: type
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        trustStore:
+          $ref: '#/components/schemas/TrustStore'
+        keyStore:
+          $ref: '#/components/schemas/KeyStoreResponse'
+        ciphers:
+          $ref: '#/components/schemas/Ciphers'
+        type:
+          description: |
+            "custom" TLS context is managed by users, whereas "default" is managed by Cloudhub 2.0
+          type: string
+      required:
+      - ciphers
+      - id
+      - keyStore
+      - name
+      type: object
+      x-amf-examples:
+        create-response:
+          id: 9b4832de-4177-4d0d-a665-6ce205c1e1be
+          name: certs with trust store and key store
+          trustStore:
+            fileName: cert.pem
+            expirationDate: 2022-08-13
+            dnList:
+            - issuer:
+                commonName: www.example.com
+                countryName: US
+                localityName: SF
+                organizationName: Example
+                organizationUnit: Engineering
+                state: CA
+              subject:
+                commonName: www.example2.com
+                countryName: US
+                localityName: SF
+                organizationName: Example2
+                organizationUnit: Engineering
+                state: CA
+              version: "3"
+              serialNumber: CHD08323DSD
+              signatureAlgorithm: SHA256WITHRSA
+              publicKeyAlgorithm: RSA
+              basicConstraints:
+                certificateAuthority: true
+              validity:
+                notBefore: 2018-06-15T16:57:39
+                notAfter: 2048-07-27T16:57:39
+              keyUsage:
+              - Digital Signature
+              - Non Repudiation
+              - Key CertSign
+              - CRL Sign
+              certificateType: X.509
+            type: PEM
+          keyStore:
+            fileName: cert.pem
+            type: PEM
+            cn: www.example.com
+            san: []
+            expirationDate: 2022-08-13
+          ciphers:
+            aes128GcmSha256: true
+            aes128Sha256: false
+            aes256GcmSha384: false
+            aes256Sha256: false
+            dheRsaAes128Sha256: false
+            dheRsaAes256GcmSha384: false
+            dheRsaAes256Sha256: false
+            ecdheEcdsaAes128GcmSha256: true
+            ecdheEcdsaAes128Sha1: false
+            ecdheEcdsaAes256GcmSha384: true
+            ecdheEcdsaAes256Sha1: false
+            ecdheRsaAes128GcmSha256: true
+            ecdheRsaAes128Sha1: false
+            ecdheRsaAes256GcmSha384: true
+            ecdheRsaAes256Sha1: false
+            ecdheEcdsaChacha20Poly1305: false
+            ecdheRsaChacha20Poly1305: false
+            dheRsaChacha20Poly1305: false
+            tlsAes256GcmSha384: true
+            tlsChacha20Poly1305Sha256: true
+            tlsAes128GcmSha256: true
+          type: custom
+    default:
+      type: object
+      x-amf-examples:
+        create-request-pem:
+          name: test
+          tlsConfig:
+            keyStore:
+              source: PEM
+              certificate: |-
+                -----BEGIN CERTIFICATE-----
+                replace with encrypted data
+                -----END CERTIFICATE-----
+              key: |-
+                -----BEGIN ENCRYPTED PRIVATE KEY-----
+                replace with encrypted data
+                -----END ENCRYPTED PRIVATE KEY-----
+              keyPassphrase: password123
+              keyFileName: test.pem
+              certificateFileName: certificateF.pem
+          ciphers:
+            aes128GcmSha256: true
+            aes128Sha256: false
+            aes256GcmSha384: false
+            aes256Sha256: false
+            dheRsaAes128Sha256: false
+            dheRsaAes256GcmSha384: false
+            dheRsaAes256Sha256: false
+            ecdheEcdsaAes128GcmSha256: true
+            ecdheEcdsaAes128Sha1: false
+            ecdheEcdsaAes256GcmSha384: true
+            ecdheEcdsaAes256Sha1: false
+            ecdheRsaAes128GcmSha256: true
+            ecdheRsaAes128Sha1: false
+            ecdheRsaAes256GcmSha384: true
+            ecdheRsaAes256Sha1: false
+            ecdheEcdsaChacha20Poly1305: false
+            ecdheRsaChacha20Poly1305: false
+            dheRsaChacha20Poly1305: false
+            tlsAes256GcmSha384: true
+            tlsChacha20Poly1305Sha256: true
+            tlsAes128GcmSha256: true
+        create-request-jks:
+          name: test
+          tlsConfig:
+            keyStore:
+              source: JKS
+              keystoreBase64: replace with base64 encoded keystore
+              keyPassphrase: password123
+              storePassphrase: password123
+              alias: special
+              keystoreFileName: special.jks
+          ciphers:
+            aes128GcmSha256: true
+            aes128Sha256: false
+            aes256GcmSha384: false
+            aes256Sha256: false
+            dheRsaAes128Sha256: false
+            dheRsaAes256GcmSha384: false
+            dheRsaAes256Sha256: false
+            ecdheEcdsaAes128GcmSha256: true
+            ecdheEcdsaAes128Sha1: false
+            ecdheEcdsaAes256GcmSha384: true
+            ecdheEcdsaAes256Sha1: false
+            ecdheRsaAes128GcmSha256: true
+            ecdheRsaAes128Sha1: false
+            ecdheRsaAes256GcmSha384: true
+            ecdheRsaAes256Sha1: false
+            ecdheEcdsaChacha20Poly1305: false
+            ecdheRsaChacha20Poly1305: false
+            dheRsaChacha20Poly1305: false
+            tlsAes256GcmSha384: true
+            tlsChacha20Poly1305Sha256: true
+            tlsAes128GcmSha256: true
+      x-amf-union:
+      - $ref: '#/definitions/PrivateSpaceTlsContextJksPost'
+      - $ref: '#/definitions/PrivateSpaceTlsContextPemPost'
+    TargetInfo:
+      example:
+        environments:
+        - environments
+        - environments
+        - environments
+        - environments
+        - environments
+        type: type
+        version: version
+        enhancedSecurity: true
+        replicationStrategies: "{}"
+        isAvailableForDeployments: true
+        runtimes:
+        - versions:
+          - baseVersion: baseVersion
+            releaseDate: 0.8008281904610115
+            minimumTag: minimumTag
+            tag: tag
+            href: href
+          - baseVersion: baseVersion
+            releaseDate: 0.8008281904610115
+            minimumTag: minimumTag
+            tag: tag
+            href: href
+          type: type
+        - versions:
+          - baseVersion: baseVersion
+            releaseDate: 0.8008281904610115
+            minimumTag: minimumTag
+            tag: tag
+            href: href
+          - baseVersion: baseVersion
+            releaseDate: 0.8008281904610115
+            minimumTag: minimumTag
+            tag: tag
+            href: href
+          type: type
+        nodes:
+        - isAvailableForDeployments: true
+          location: location
+          id: id
+          availability: availability
+        - isAvailableForDeployments: true
+          location: location
+          id: id
+          availability: availability
+        defaults: "{}"
+        name: name
+        id: id
+        region: region
+        status: status
+        featureFlags: "{}"
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        version:
+          description: The version of the target.
+          type: string
+        type:
+          description: The type of the target.
+          type: string
+        runtimes:
+          items:
+            $ref: '#/components/schemas/SupportedRuntime'
+          type: array
+        status:
+          type: string
+        environments:
+          description: If present determines if the target is restricted to a particular
+            set of environments. If it is restricted to all environments then an empty
+            list has to be provided. If not present then there is not target restriction
+            over an environment.
+          items:
+            type: string
+          maxItems: 10
+          minItems: 0
+          type: array
+        isAvailableForDeployments:
+          description: Determines if a deployment can be perfomed in a particular
+            target.
+          type: boolean
+        replicationStrategies:
+          description: Replication Strategies for this target per deployment type.
+          properties: {}
+          type: object
+        nodes:
+          items:
+            $ref: '#/components/schemas/NodeInfo'
+          type: array
+        defaults:
+          description: |
+            Default deployment settings for this target
+          properties: {}
+          type: object
+        enhancedSecurity:
+          description: |
+            Flag for whether the target supports enhanced security features.
+          type: boolean
+        featureFlags:
+          description: |
+            Supported Feature flags for the target
+          properties: {}
+          type: object
+        region:
+          description: Target Region
+          type: string
+      required:
+      - id
+      - isAvailableForDeployments
+      - name
+      - nodes
+      - region
+      - runtimes
+      - status
+      - type
+      - version
+      type: object
+    environments:
+      description: |
+        Environment association for the Private Space
+      example:
+        type: type
+        businessGroups:
+        - businessGroups
+        - businessGroups
+      properties:
+        type:
+          description: "The type of environments. Possible values are all, sandbox,\
+            \ production"
+          type: string
+        businessGroups:
+          description: The Ids of business groups.
+          items:
+            type: string
+          type: array
+      required:
+      - businessGroups
+      - type
+      type: object
+    network:
+      description: |
+        Private space network configuration
+      example:
+        inboundStaticIps:
+        - inboundStaticIps
+        - inboundStaticIps
+        internalDns:
+          specialDomains:
+          - specialDomains
+          - specialDomains
+          dnsServers:
+          - dnsServers
+          - dnsServers
+        dnsTarget: dnsTarget
+        vpcId: vpcId
+        cidrBlock: 10.0.0.0/16
+        outboundStaticIps:
+        - outboundStaticIps
+        - outboundStaticIps
+        internalDnsTarget: internalDnsTarget
+        region: region
+      properties:
+        region:
+          description: The region of the Private Space. Required when create a Private
+            Space network.
+          type: string
+        vpcId:
+          description: |
+            The existing VPC where the Private Space will be created. Required when create a Private Space in existing Anypoint VPC.
+          type: string
+        cidrBlock:
+          default: 10.0.0.0/16
+          description: |
+            The CIDR block of the VPC where the Private Space will be created. Required when create a Private Space in a new VPC.
+            Default is 10.0.0.0/16.
+          type: string
+        internalDns:
+          $ref: '#/components/schemas/internalDns'
+        inboundStaticIps:
+          description: |
+            The inbound static IPs of the Private Space network.
+          items:
+            type: string
+          type: array
+        outboundStaticIps:
+          description: |
+            The outbound static IPs of the Private Space network.
+          items:
+            type: string
+          type: array
+        dnsTarget:
+          description: |
+            The dns target of the Private Space network.
+          type: string
+        internalDnsTarget:
+          description: |
+            The internal dns target of the VPC that the Private Space network uses.
+          type: string
+      type: object
+    ingressConfiguration:
+      description: |
+        Private space ingress configuration
+      example:
+        protocol: https-redirect
+        readResponseTimeout: 528
+        logs:
+          portLogLevel: ERROR
+          filters:
+          - level: level
+            ip: ip
+          - level: level
+            ip: ip
+        deployment:
+          lastSeenTimestamp: 5.962133916683182
+          status: status
+      properties:
+        readResponseTimeout:
+          maximum: 3600
+          minimum: 1
+          type: integer
+        logs:
+          $ref: '#/components/schemas/ingressConfiguration_logs'
+        protocol:
+          default: https-redirect
+          type: string
+        deployment:
+          $ref: '#/components/schemas/ingressConfiguration_deployment'
+      type: object
+    globalSpaceStatus:
+      description: Global Status object for the space.
+      example:
+        cluster:
+        - ingress:
+            lastSeenTimeStamp: 9.301444243932576
+            message: message
+            status: status
+          fabric:
+            lastSeenTimeStamp: 7.061401241503109
+            message: message
+            status: status
+          infra:
+            lastSeenTimeStamp: 2.3021358869347655
+            message: message
+            status: status
+        - ingress:
+            lastSeenTimeStamp: 9.301444243932576
+            message: message
+            status: status
+          fabric:
+            lastSeenTimeStamp: 7.061401241503109
+            message: message
+            status: status
+          infra:
+            lastSeenTimeStamp: 2.3021358869347655
+            message: message
+            status: status
+        space:
+          lastSeenTimeStamp: 5.637376656633329
+          message: message
+          status: status
+        network:
+          lastSeenTimeStamp: 3.616076749251911
+          message: message
+          status: status
+      properties:
+        space:
+          $ref: '#/components/schemas/space'
+        cluster:
+          description: The status of the space cluster component.
+          items:
+            $ref: '#/components/schemas/GlobalClusterStatus'
+          type: array
+        network:
+          $ref: '#/components/schemas/network_8'
+      required:
+      - cluster
+      - network
+      - space
+      type: object
+    FirewallRule:
+      example:
+        protocol: protocol
+        fromPort: 0
+        cidrBlock: cidrBlock
+        toPort: 6
+        type: inbound
+      properties:
+        cidrBlock:
+          type: string
+        protocol:
+          type: string
+        fromPort:
+          type: integer
+        toPort:
+          type: integer
+        type:
+          default: inbound
+          description: "Type of the firewall rule. Allowed values are [inbound, outbound]"
+          type: string
+      required:
+      - cidrBlock
+      - fromPort
+      - protocol
+      - toPort
+      - type
+      type: object
+    environments_2:
+      description: |
+        Environment association for the Private Space
+      example:
+        type: type
+        businessGroups:
+        - businessGroups
+        - businessGroups
+      properties:
+        type:
+          description: "The type of environments. Possible values are all, sandbox,\
+            \ production"
+          type: string
+        businessGroups:
+          description: The Ids of business groups.
+          items:
+            type: string
+          type: array
+      required:
+      - businessGroups
+      - type
+      type: object
+    network_3:
+      description: |
+        Private space network configuration
+      example:
+        internalDns:
+          specialDomains:
+          - specialDomains
+          - specialDomains
+          dnsServers:
+          - dnsServers
+          - dnsServers
+        vpcId: vpcId
+        cidrBlock: 10.0.0.0/16
+        region: region
+      properties:
+        region:
+          description: The region of the Private Space. Required when create a Private
+            Space network.
+          type: string
+        vpcId:
+          description: |
+            The existing VPC where the Private Space will be created. Required when create a Private Space in existing Anypoint VPC.
+          type: string
+        cidrBlock:
+          default: 10.0.0.0/16
+          description: |
+            The CIDR block of the VPC where the Private Space will be created. Required when create a Private Space in a new VPC.
+            Default is 10.0.0.0/16.
+          type: string
+        internalDns:
+          $ref: '#/components/schemas/internalDns_9'
+      type: object
+    environments_4:
+      description: |
+        Environment association for the Private Space
+      example:
+        type: type
+        businessGroups:
+        - businessGroups
+        - businessGroups
+      properties:
+        type:
+          description: "The type of environments. Possible values are all, sandbox,\
+            \ production"
+          type: string
+        businessGroups:
+          description: The Ids of business groups.
+          items:
+            type: string
+          type: array
+      required:
+      - businessGroups
+      - type
+      type: object
+    network_5:
+      description: |
+        Private space network configuration
+      example:
+        internalDns:
+          specialDomains:
+          - specialDomains
+          - specialDomains
+          dnsServers:
+          - dnsServers
+          - dnsServers
+        vpcId: vpcId
+        cidrBlock: 10.0.0.0/16
+        region: region
+      properties:
+        region:
+          description: The region of the Private Space. Required when create a Private
+            Space network.
+          type: string
+        vpcId:
+          description: |
+            The existing VPC where the Private Space will be created. Required when create a Private Space in existing Anypoint VPC.
+          type: string
+        cidrBlock:
+          default: 10.0.0.0/16
+          description: |
+            The CIDR block of the VPC where the Private Space will be created. Required when create a Private Space in a new VPC.
+            Default is 10.0.0.0/16.
+          type: string
+        internalDns:
+          $ref: '#/components/schemas/internalDns_9'
+      type: object
+    logForwarding:
+      description: |
+        Private space log forwarding configuration
+      example:
+        anypointMonitoring: true
+      properties:
+        anypointMonitoring:
+          description: The desired action to push logs to Anypoint monitoring.
+          type: boolean
+      type: object
+    ingressConfiguration_6:
+      description: |
+        Private space ingress configuration
+      example:
+        protocol: https-redirect
+        readResponseTimeout: 289
+        logs:
+          portLogLevel: ERROR
+          filters:
+          - level: level
+            ip: ip
+          - level: level
+            ip: ip
+        deployment:
+          lastSeenTimestamp: 5.962133916683182
+          status: status
+      properties:
+        readResponseTimeout:
+          maximum: 3600
+          minimum: 1
+          type: integer
+        logs:
+          $ref: '#/components/schemas/ingressConfiguration_logs'
+        protocol:
+          default: https-redirect
+          type: string
+        deployment:
+          $ref: '#/components/schemas/ingressConfiguration_deployment'
+      type: object
+    items:
+      example:
+        vpnConnectionStatus: vpnConnectionStatus
+        staticRoutes:
+        - staticRoutes
+        - staticRoutes
+        remoteAsn: 0.8008281904610115
+        vpnTunnels:
+        - startupAction: startupAction
+          phase2IntegrityAlgorithms:
+          - phase2IntegrityAlgorithms
+          - phase2IntegrityAlgorithms
+          psk: psk
+          phase1IntegrityAlgorithms:
+          - phase1IntegrityAlgorithms
+          - phase1IntegrityAlgorithms
+          phase1EncryptionAlgorithms:
+          - phase1EncryptionAlgorithms
+          - phase1EncryptionAlgorithms
+          vpnConnectionId: vpnConnectionId
+          statusMessage: statusMessage
+          remotePtpIpAddress: remotePtpIpAddress
+          phase2DhGroups:
+          - 2
+          - 2
+          phase1DhGroups:
+          - 5
+          - 5
+          rekeyFuzz: 5
+          ptpCidr: ptpCidr
+          ikeVersions:
+          - ikeVersions
+          - ikeVersions
+          phase2EncryptionAlgorithms:
+          - phase2EncryptionAlgorithms
+          - phase2EncryptionAlgorithms
+          lastStatusChange: lastStatusChange
+          dPDTimeoutAction: dPDTimeoutAction
+          rekeyMarginInSeconds: 1
+          localExternalIpAddress: localExternalIpAddress
+          localPtpIpAddress: localPtpIpAddress
+          acceptedRouteCount: 7.061401241503109
+          status: status
+        - startupAction: startupAction
+          phase2IntegrityAlgorithms:
+          - phase2IntegrityAlgorithms
+          - phase2IntegrityAlgorithms
+          psk: psk
+          phase1IntegrityAlgorithms:
+          - phase1IntegrityAlgorithms
+          - phase1IntegrityAlgorithms
+          phase1EncryptionAlgorithms:
+          - phase1EncryptionAlgorithms
+          - phase1EncryptionAlgorithms
+          vpnConnectionId: vpnConnectionId
+          statusMessage: statusMessage
+          remotePtpIpAddress: remotePtpIpAddress
+          phase2DhGroups:
+          - 2
+          - 2
+          phase1DhGroups:
+          - 5
+          - 5
+          rekeyFuzz: 5
+          ptpCidr: ptpCidr
+          ikeVersions:
+          - ikeVersions
+          - ikeVersions
+          phase2EncryptionAlgorithms:
+          - phase2EncryptionAlgorithms
+          - phase2EncryptionAlgorithms
+          lastStatusChange: lastStatusChange
+          dPDTimeoutAction: dPDTimeoutAction
+          rekeyMarginInSeconds: 1
+          localExternalIpAddress: localExternalIpAddress
+          localPtpIpAddress: localPtpIpAddress
+          acceptedRouteCount: 7.061401241503109
+          status: status
+        name: name
+        connectionId: connectionId
+        localAsn: 6.027456183070403
+        connectionName: connectionName
+        vpnId: vpnId
+        remoteIpAddress: remoteIpAddress
+      properties:
+        name:
+          description: |
+            The name of the VPN.
+          type: string
+        vpnId:
+          description: |
+            The id of the VPN.
+          type: string
+        connectionId:
+          description: |
+            The connectionId associated to the vpn, to which it belongs.
+          type: string
+        connectionName:
+          description: |
+            The connectionName associated to the vpn, to which it belongs.
+          type: string
+        vpnConnectionStatus:
+          description: |
+            The status of vpn(pending | available | deleting | deleted).
+          type: string
+        remoteAsn:
+          description: |
+            The ASN of the customer's outside network, used by VPNs utilizing BGP for routes.
+          type: number
+        localAsn:
+          description: |
+            The ASN of the customer's cloudhub network, used by VPNs utilizing BGP for routes.
+          type: number
+        remoteIpAddress:
+          description: |
+            The IP address of the customer's VPN device on their outside network
+          type: string
+        staticRoutes:
+          description: |
+            The CIDRs that the Cloudhub VPC will send traffic to via the VPN.
+          items:
+            type: string
+          type: array
+        vpnTunnels:
+          description: VPN tunnel actual state of customer's VPN connection.
+          items:
+            $ref: '#/components/schemas/items_7'
+          type: array
+      required:
+      - name
+      - remoteIpAddress
+      - staticRoutes
+      - vpnTunnels
+      type: object
+    items_7:
+      example:
+        startupAction: startupAction
+        phase2IntegrityAlgorithms:
+        - phase2IntegrityAlgorithms
+        - phase2IntegrityAlgorithms
+        psk: psk
+        phase1IntegrityAlgorithms:
+        - phase1IntegrityAlgorithms
+        - phase1IntegrityAlgorithms
+        phase1EncryptionAlgorithms:
+        - phase1EncryptionAlgorithms
+        - phase1EncryptionAlgorithms
+        vpnConnectionId: vpnConnectionId
+        statusMessage: statusMessage
+        remotePtpIpAddress: remotePtpIpAddress
+        phase2DhGroups:
+        - 2
+        - 2
+        phase1DhGroups:
+        - 5
+        - 5
+        rekeyFuzz: 5
+        ptpCidr: ptpCidr
+        ikeVersions:
+        - ikeVersions
+        - ikeVersions
+        phase2EncryptionAlgorithms:
+        - phase2EncryptionAlgorithms
+        - phase2EncryptionAlgorithms
+        lastStatusChange: lastStatusChange
+        dPDTimeoutAction: dPDTimeoutAction
+        rekeyMarginInSeconds: 1
+        localExternalIpAddress: localExternalIpAddress
+        localPtpIpAddress: localPtpIpAddress
+        acceptedRouteCount: 7.061401241503109
+        status: status
+      properties:
+        vpnConnectionId:
+          description: |
+            Connection id for the vpn.
+          type: string
+        psk:
+          description: |
+            The pre-shared key that the customer will use to make a connection.
+          type: string
+        ptpCidr:
+          description: |
+            The Point-To-Point CIDR range that the customer will use for connections.
+          type: string
+        localExternalIpAddress:
+          description: |
+            Local external ip address for the tunnel.
+          type: string
+        localPtpIpAddress:
+          description: |
+            Local Point-To-Point ip address for tunnel.
+          type: string
+        remotePtpIpAddress:
+          description: |
+            Remote Point-To-Point ip address for tunnel.
+          type: string
+        startupAction:
+          description: |
+            The action to take when the establishing the tunnel for the VPN connection. By default, CGW must initiate the IKE negotiation and bring up the tunnel. Specify start for AWS to initiate the IKE negotiation.
+          type: string
+        dPDTimeoutAction:
+          description: |
+            The action to take after Dead Peer Detection timeout occurs. Specify restart to restart the IKE initiation. Specify clear to end the IKE session.
+          type: string
+        rekeyMarginInSeconds:
+          description: |
+            The margin time, in seconds, before the phase 2 lifetime expires, during which the AWS side of the VPN connection performs an IKE rekey.
+          type: integer
+        rekeyFuzz:
+          description: |
+            The percentage of the rekey window (determined by RekeyMarginTimeSeconds) during which the rekey time is randomly selected.
+          type: integer
+        ikeVersions:
+          description: |
+            The IKE versions that are permitted for the VPN tunnel. Valid values: ikev1,ikev2
+          items:
+            type: string
+          type: array
+        phase1DhGroups:
+          description: |
+            One or more Diffie-Hellman group numbers that are permitted for the VPN tunnel for phase 1 IKE negotiations. Valid values: 2,14,15,16,17,18,19,20,21,22,23,24
+          items:
+            type: integer
+          type: array
+        phase2DhGroups:
+          description: |
+            One or more Diffie-Hellman group numbers that are permitted for the VPN tunnel for phase 2 IKE negotiations. Valid values: 2,5,14,15,16,17,18,19,20,21,22,23,24
+          items:
+            type: integer
+          type: array
+        phase1EncryptionAlgorithms:
+          description: |
+            One or more encryption algorithms that are permitted for the VPN tunnel for phase 1 IKE negotiations. Valid values: AES128,AES256,AES128-GCM-16,AES256-GCM-16
+          items:
+            type: string
+          type: array
+        phase2EncryptionAlgorithms:
+          description: |
+            One or more encryption algorithms that are permitted for the VPN tunnel for phase 2 IKE negotiations. Valid values: AES128,AES256,AES128-GCM-16,AES256-GCM-16
+          items:
+            type: string
+          type: array
+        phase1IntegrityAlgorithms:
+          description: |
+            One or more integrity algorithms that are permitted for the VPN tunnel for phase 1 IKE negotiations. Valid values: SHA1,SHA2-256,SHA2-384,SHA2-512
+          items:
+            type: string
+          type: array
+        phase2IntegrityAlgorithms:
+          description: |
+            One or more integrity algorithms that are permitted for the VPN tunnel for phase 2 IKE negotiations. Valid values: SHA1,SHA2-256,SHA2-384,SHA2-512
+          items:
+            type: string
+          type: array
+        acceptedRouteCount:
+          description: |
+            Accepted route count for the tunnel.
+          type: number
+        lastStatusChange:
+          description: |
+            Last status change for the tunnel.
+          type: string
+        status:
+          description: |
+            Status for the tunnel.
+          type: string
+        statusMessage:
+          description: |
+            Status message for the tunnel.
+          type: string
+      type: object
+    TgwSpec:
+      example:
+        spaceName: spaceName
+        resourceShare:
+          id: id
+          account: account
+        region: region
+      properties:
+        resourceShare:
+          $ref: '#/components/schemas/ResourceShare'
+        region:
+          type: string
+        spaceName:
+          type: string
+      required:
+      - region
+      - resourceShare
+      type: object
+    TgwStatus:
+      example:
+        tgwResource: tgwResource
+        routes:
+        - routes
+        - routes
+        attachment: attachment
+        gateway: gateway
+      properties:
+        gateway:
+          type: string
+        attachment:
+          type: string
+        tgwResource:
+          type: string
+        routes:
+          items:
+            type: string
+          type: array
+      required:
+      - attachment
+      - gateway
+      - routes
+      - tgwResource
+      type: object
+    TrustStore:
+      example:
+        fileName: fileName
+        type: type
+        dnList:
+        - serialNumber: serialNumber
+          keyUsage:
+          - Digital Signature
+          - Digital Signature
+          - Digital Signature
+          - Digital Signature
+          - Digital Signature
+          subject:
+            commonName: commonName
+            localityName: localityName
+            organizationName: organizationName
+            organizationUnit: organizationUnit
+            countryName: countryName
+            state: state
+          subjectAlternativeName:
+          - subjectAlternativeName
+          - subjectAlternativeName
+          publicKeyAlgorithm: publicKeyAlgorithm
+          basicConstraints:
+            certificateAuthority: true
+          extendedKeyUsage:
+          - TLS Web server authentication
+          - TLS Web server authentication
+          - TLS Web server authentication
+          - TLS Web server authentication
+          - TLS Web server authentication
+          validity:
+            notAfter: notAfter
+            notBefore: notBefore
+          version: version
+          issuer:
+            commonName: commonName
+            localityName: localityName
+            organizationName: organizationName
+            organizationUnit: organizationUnit
+            countryName: countryName
+            state: state
+          signatureAlgorithm: signatureAlgorithm
+          certificateType: certificateType
+        - serialNumber: serialNumber
+          keyUsage:
+          - Digital Signature
+          - Digital Signature
+          - Digital Signature
+          - Digital Signature
+          - Digital Signature
+          subject:
+            commonName: commonName
+            localityName: localityName
+            organizationName: organizationName
+            organizationUnit: organizationUnit
+            countryName: countryName
+            state: state
+          subjectAlternativeName:
+          - subjectAlternativeName
+          - subjectAlternativeName
+          publicKeyAlgorithm: publicKeyAlgorithm
+          basicConstraints:
+            certificateAuthority: true
+          extendedKeyUsage:
+          - TLS Web server authentication
+          - TLS Web server authentication
+          - TLS Web server authentication
+          - TLS Web server authentication
+          - TLS Web server authentication
+          validity:
+            notAfter: notAfter
+            notBefore: notBefore
+          version: version
+          issuer:
+            commonName: commonName
+            localityName: localityName
+            organizationName: organizationName
+            organizationUnit: organizationUnit
+            countryName: countryName
+            state: state
+          signatureAlgorithm: signatureAlgorithm
+          certificateType: certificateType
+        expirationDate: expirationDate
+      properties:
+        type:
+          type: string
+        dnList:
+          items:
+            $ref: '#/components/schemas/items_10'
+          minItems: 1
+          type: array
+        fileName:
+          description: name of the trust store file
+          type: string
+        expirationDate:
+          type: string
+      required:
+      - dnList
+      - fileName
+      - type
+      type: object
+    KeyStoreResponse:
+      example:
+        san:
+        - san
+        - san
+        fileName: fileName
+        capathFileName: capathFileName
+        alias: alias
+        cn: cn
+        type: type
+        keyFileName: keyFileName
+        expirationDate: expirationDate
+      properties:
+        type:
+          type: string
+        cn:
+          type: string
+        san:
+          items:
+            type: string
+          minItems: 0
+          type: array
+        alias:
+          type: string
+        fileName:
+          description: name of the key store file
+          type: string
+        keyFileName:
+          maxLength: 64
+          type: string
+        capathFileName:
+          maxLength: 64
+          type: string
+        expirationDate:
+          type: string
+      required:
+      - cn
+      - fileName
+      - san
+      - type
+      type: object
+    Ciphers:
+      example:
+        dheRsaChacha20Poly1305: false
+        tlsChacha20Poly1305Sha256: true
+        dheRsaAes256Sha256: false
+        dheRsaAes128Sha256: false
+        ecdheEcdsaAes128GcmSha256: true
+        aes128GcmSha256: false
+        tlsAes128GcmSha256: true
+        aes128Sha256: false
+        ecdheRsaAes128GcmSha256: true
+        ecdheRsaChacha20Poly1305: false
+        tlsAes256GcmSha384: true
+        dheRsaAes256GcmSha384: false
+        ecdheEcdsaAes256Sha1: false
+        ecdheEcdsaChacha20Poly1305: false
+        aes256Sha256: false
+        aes256GcmSha384: false
+        ecdheRsaAes256Sha1: false
+        ecdheRsaAes256GcmSha384: true
+        ecdheEcdsaAes256GcmSha384: true
+        ecdheRsaAes128Sha1: false
+        ecdheEcdsaAes128Sha1: false
+      properties:
+        aes128GcmSha256:
+          default: false
+          type: boolean
+        aes128Sha256:
+          default: false
+          type: boolean
+        aes256GcmSha384:
+          default: false
+          type: boolean
+        aes256Sha256:
+          default: false
+          type: boolean
+        dheRsaAes128Sha256:
+          default: false
+          type: boolean
+        dheRsaAes256GcmSha384:
+          default: false
+          type: boolean
+        dheRsaAes256Sha256:
+          default: false
+          type: boolean
+        ecdheEcdsaAes128GcmSha256:
+          default: true
+          type: boolean
+        ecdheEcdsaAes128Sha1:
+          default: false
+          type: boolean
+        ecdheEcdsaAes256GcmSha384:
+          default: true
+          type: boolean
+        ecdheEcdsaAes256Sha1:
+          default: false
+          type: boolean
+        ecdheRsaAes128GcmSha256:
+          default: true
+          type: boolean
+        ecdheRsaAes128Sha1:
+          default: false
+          type: boolean
+        ecdheRsaAes256GcmSha384:
+          default: true
+          type: boolean
+        ecdheRsaAes256Sha1:
+          default: false
+          type: boolean
+        ecdheEcdsaChacha20Poly1305:
+          default: false
+          type: boolean
+        ecdheRsaChacha20Poly1305:
+          default: false
+          type: boolean
+        dheRsaChacha20Poly1305:
+          default: false
+          type: boolean
+        tlsAes256GcmSha384:
+          default: true
+          type: boolean
+        tlsChacha20Poly1305Sha256:
+          default: true
+          type: boolean
+        tlsAes128GcmSha256:
+          default: true
+          type: boolean
+      required:
+      - aes128GcmSha256
+      - aes128Sha256
+      - aes256GcmSha384
+      - aes256Sha256
+      - dheRsaAes128Sha256
+      - dheRsaAes256GcmSha384
+      - dheRsaAes256Sha256
+      - dheRsaChacha20Poly1305
+      - ecdheEcdsaAes128GcmSha256
+      - ecdheEcdsaAes128Sha1
+      - ecdheEcdsaAes256GcmSha384
+      - ecdheEcdsaAes256Sha1
+      - ecdheEcdsaChacha20Poly1305
+      - ecdheRsaAes128GcmSha256
+      - ecdheRsaAes128Sha1
+      - ecdheRsaAes256GcmSha384
+      - ecdheRsaAes256Sha1
+      - ecdheRsaChacha20Poly1305
+      - tlsAes128GcmSha256
+      - tlsAes256GcmSha384
+      - tlsChacha20Poly1305Sha256
+      type: object
+    PrivateSpaceTlsContextJksPost:
+      properties:
+        name:
+          type: string
+        tlsConfig:
+          $ref: '#/components/schemas/TlsConfigJks'
+        ciphers:
+          $ref: '#/components/schemas/Ciphers'
+      required:
+      - ciphers
+      - name
+      - tlsConfig
+      type: object
+    PrivateSpaceTlsContextPemPost:
+      properties:
+        name:
+          type: string
+        tlsConfig:
+          $ref: '#/components/schemas/TlsConfigPem'
+        ciphers:
+          $ref: '#/components/schemas/Ciphers'
+      required:
+      - ciphers
+      - name
+      - tlsConfig
+      type: object
+    SupportedRuntime:
+      example:
+        versions:
+        - baseVersion: baseVersion
+          releaseDate: 0.8008281904610115
+          minimumTag: minimumTag
+          tag: tag
+          href: href
+        - baseVersion: baseVersion
+          releaseDate: 0.8008281904610115
+          minimumTag: minimumTag
+          tag: tag
+          href: href
+        type: type
+      properties:
+        type:
+          type: string
+        versions:
+          items:
+            $ref: '#/components/schemas/SupportedRuntimeVersion'
+          type: array
+      required:
+      - type
+      type: object
+    NodeInfo:
+      example:
+        isAvailableForDeployments: true
+        location: location
+        id: id
+        availability: availability
+      properties:
+        id:
+          type: string
+        location:
+          type: string
+        isAvailableForDeployments:
+          type: boolean
+        availability:
+          description: If set to "AVAILABLE" the cluster will accept deployments
+          type: string
+      required:
+      - id
+      - isAvailableForDeployments
+      - location
+      type: object
+    internalDns:
+      description: |
+        The internal DNS config of the VPC that the Private Space uses.
+      example:
+        specialDomains:
+        - specialDomains
+        - specialDomains
+        dnsServers:
+        - dnsServers
+        - dnsServers
+      properties:
+        dnsServers:
+          items:
+            type: string
+          type: array
+        specialDomains:
+          items:
+            type: string
+          type: array
+      required:
+      - dnsServers
+      - specialDomains
+      type: object
+    PrivateSpaceIngressConfigurationLogsFilter:
+      example:
+        level: level
+        ip: ip
+      properties:
+        ip:
+          type: string
+        level:
+          type: string
+      type: object
+    space:
+      description: The overall status of the space.
+      example:
+        lastSeenTimeStamp: 5.637376656633329
+        message: message
+        status: status
+      properties:
+        status:
+          description: The last known status
+          type: string
+        message:
+          description: Message describing the last known status
+          type: string
+        lastSeenTimeStamp:
+          description: Last known timestamp of the status in EPOCH
+          type: number
+      type: object
+    network_8:
+      description: The status of the space network component.
+      example:
+        lastSeenTimeStamp: 3.616076749251911
+        message: message
+        status: status
+      properties:
+        status:
+          description: The last known status
+          type: string
+        message:
+          description: Message describing the last known status
+          type: string
+        lastSeenTimeStamp:
+          description: Last known timestamp of the status in EPOCH
+          type: number
+      type: object
+    GlobalClusterStatus:
+      example:
+        ingress:
+          lastSeenTimeStamp: 9.301444243932576
+          message: message
+          status: status
+        fabric:
+          lastSeenTimeStamp: 7.061401241503109
+          message: message
+          status: status
+        infra:
+          lastSeenTimeStamp: 2.3021358869347655
+          message: message
+          status: status
+      properties:
+        infra:
+          $ref: '#/components/schemas/infra'
+        fabric:
+          $ref: '#/components/schemas/fabric'
+        ingress:
+          $ref: '#/components/schemas/ingress'
+      type: object
+    internalDns_9:
+      description: |
+        The internal DNS config of the VPC that the Private Space uses.
+      example:
+        specialDomains:
+        - specialDomains
+        - specialDomains
+        dnsServers:
+        - dnsServers
+        - dnsServers
+      properties:
+        dnsServers:
+          items:
+            type: string
+          type: array
+        specialDomains:
+          items:
+            type: string
+          type: array
+      required:
+      - dnsServers
+      - specialDomains
+      type: object
+    ResourceShare:
+      example:
+        id: id
+        account: account
+      properties:
+        id:
+          type: string
+        account:
+          type: string
+      required:
+      - account
+      - id
+      type: object
+    items_10:
+      description: Details of certificate.
+      example:
+        serialNumber: serialNumber
+        keyUsage:
+        - Digital Signature
+        - Digital Signature
+        - Digital Signature
+        - Digital Signature
+        - Digital Signature
+        subject:
+          commonName: commonName
+          localityName: localityName
+          organizationName: organizationName
+          organizationUnit: organizationUnit
+          countryName: countryName
+          state: state
+        subjectAlternativeName:
+        - subjectAlternativeName
+        - subjectAlternativeName
+        publicKeyAlgorithm: publicKeyAlgorithm
+        basicConstraints:
+          certificateAuthority: true
+        extendedKeyUsage:
+        - TLS Web server authentication
+        - TLS Web server authentication
+        - TLS Web server authentication
+        - TLS Web server authentication
+        - TLS Web server authentication
+        validity:
+          notAfter: notAfter
+          notBefore: notBefore
+        version: version
+        issuer:
+          commonName: commonName
+          localityName: localityName
+          organizationName: organizationName
+          organizationUnit: organizationUnit
+          countryName: countryName
+          state: state
+        signatureAlgorithm: signatureAlgorithm
+        certificateType: certificateType
+      properties:
+        issuer:
+          $ref: '#/components/schemas/issuer'
+        subject:
+          $ref: '#/components/schemas/subject'
+        subjectAlternativeName:
+          description: Collection of subject alternative names from the SubjectAltName
+            x509 extension
+          items:
+            type: string
+          type: array
+        version:
+          type: string
+        serialNumber:
+          description: "Serial number assigned by the CA to this certificate, in hex\
+            \ format"
+          type: string
+        signatureAlgorithm:
+          description: Name of the signature algorithm
+          type: string
+        publicKeyAlgorithm:
+          description: The standard algorithm name for the public key of this certificate
+          type: string
+        basicConstraints:
+          $ref: '#/components/schemas/items_10_basicConstraints'
+        validity:
+          $ref: '#/components/schemas/validity'
+        keyUsage:
+          description: A list of values defining the purpose of the public key i.e.
+            the key usage extensions from this certificate
+          items:
+            enum:
+            - Digital Signature
+            - Non Repudiation
+            - Key Encipherment
+            - Data Encipherment
+            - Key Agreement
+            - Key CertSign
+            - CRL Sign
+            - Encipher Only
+            - Decipher Only
+            type: string
+          maxItems: 9
+          minItems: 1
+          type: array
+        extendedKeyUsage:
+          description: A list of values providing details about the extended key usage
+            extensions from this certificate.
+          items:
+            enum:
+            - TLS Web server authentication
+            - TLS Web client authentication
+            - Code signing
+            - E-mail protection
+            - Timestamping
+            - OCSPstamping
+            - IP security end system
+            - IP security tunnel termination
+            - IP security user
+            type: string
+          maxItems: 9
+          minItems: 1
+          type: array
+        certificateType:
+          description: The type of this certificate
+          type: string
+      required:
+      - certificateType
+      - issuer
+      - publicKeyAlgorithm
+      - serialNumber
+      - signatureAlgorithm
+      - subject
+      - validity
+      - version
+      type: object
+    TlsConfigJks:
+      properties:
+        keyStore:
+          $ref: '#/components/schemas/KeyStoreJks'
+        trustStore:
+          properties: {}
+          type: object
+      required:
+      - keyStore
+      type: object
+    TlsConfigPem:
+      properties:
+        keyStore:
+          $ref: '#/components/schemas/KeyStorePem'
+        trustStore:
+          properties: {}
+          type: object
+      required:
+      - keyStore
+      type: object
+    SupportedRuntimeVersion:
+      example:
+        baseVersion: baseVersion
+        releaseDate: 0.8008281904610115
+        minimumTag: minimumTag
+        tag: tag
+        href: href
+      properties:
+        baseVersion:
+          description: "Identifier of the Base Version of the Runtime. For example,\
+            \ in the case of a patched 3.8.0 Mule Runtime, the base version is 3.8.0.\
+            \ This is the version that is used in order to get feature validations\
+            \ by the Anypoint Management Center. This is the information shown to\
+            \ customers and the one that has to be used in order to make deployments."
+          type: string
+        tag:
+          description: Identifier of the actual version of the runtime that is used
+            for deployments.
+          type: string
+        releaseDate:
+          description: Release date of the runtime tag that is used for deployments.
+          type: number
+        minimumTag:
+          description: Identifier of the oldest version of the runtime that can be
+            used for deployments.
+          type: string
+        href:
+          description: Href to get information about the particular asset. Only if
+            supported.
+          type: string
+      required:
+      - baseVersion
+      - minimumTag
+      - releaseDate
+      - tag
+      type: object
+    infra:
+      description: The last known status of the space cluster infra component
+      example:
+        lastSeenTimeStamp: 2.3021358869347655
+        message: message
+        status: status
+      properties:
+        status:
+          description: The last known status
+          type: string
+        message:
+          description: Message describing the last known status
+          type: string
+        lastSeenTimeStamp:
+          description: Last known timestamp of the status in EPOCH
+          type: number
+      type: object
+    fabric:
+      description: The last known status of the space fabric component
+      example:
+        lastSeenTimeStamp: 7.061401241503109
+        message: message
+        status: status
+      properties:
+        status:
+          description: The last known status
+          type: string
+        message:
+          description: Message describing the last known status
+          type: string
+        lastSeenTimeStamp:
+          description: Last known timestamp of the status in EPOCH
+          type: number
+      type: object
+    ingress:
+      description: The last known status of the space ingress component
+      example:
+        lastSeenTimeStamp: 9.301444243932576
+        message: message
+        status: status
+      properties:
+        status:
+          description: The last known status
+          type: string
+        message:
+          description: Message describing the last known status
+          type: string
+        lastSeenTimeStamp:
+          description: Last known timestamp of the status in EPOCH
+          type: number
+      type: object
+    issuer:
+      description: Details about the entity that issued the certificate.
+      example:
+        commonName: commonName
+        localityName: localityName
+        organizationName: organizationName
+        organizationUnit: organizationUnit
+        countryName: countryName
+        state: state
+      properties:
+        commonName:
+          type: string
+        countryName:
+          type: string
+        localityName:
+          type: string
+        organizationName:
+          type: string
+        organizationUnit:
+          type: string
+        state:
+          type: string
+      required:
+      - commonName
+      - countryName
+      - localityName
+      - organizationName
+      - organizationUnit
+      - state
+      type: object
+    subject:
+      description: Details about the entity to which the certificate is issued.
+      example:
+        commonName: commonName
+        localityName: localityName
+        organizationName: organizationName
+        organizationUnit: organizationUnit
+        countryName: countryName
+        state: state
+      properties:
+        commonName:
+          type: string
+        countryName:
+          type: string
+        localityName:
+          type: string
+        organizationName:
+          type: string
+        organizationUnit:
+          type: string
+        state:
+          type: string
+      required:
+      - commonName
+      - countryName
+      - localityName
+      - organizationName
+      - organizationUnit
+      - state
+      type: object
+    validity:
+      description: Details about validity period of this certificate
+      example:
+        notAfter: notAfter
+        notBefore: notBefore
+      properties:
+        notBefore:
+          type: string
+        notAfter:
+          type: string
+      required:
+      - notAfter
+      - notBefore
+      type: object
+    KeyStoreJks:
+      properties:
+        source:
+          type: string
+        keystoreBase64:
+          description: base64 encoded file contents
+          maxLength: 40960
+          type: string
+        alias:
+          maxLength: 64
+          type: string
+        keyPassphrase:
+          maxLength: 64
+          type: string
+        storePassphrase:
+          maxLength: 64
+          type: string
+        keystoreFileName:
+          maxLength: 64
+          type: string
+      required:
+      - alias
+      - keyPassphrase
+      - keystoreBase64
+      - source
+      - storePassphrase
+      type: object
+    KeyStorePem:
+      properties:
+        source:
+          type: string
+        certificate:
+          maxLength: 4096
+          type: string
+        key:
+          maxLength: 6144
+          type: string
+        capath:
+          maxLength: 28672
+          type: string
+        certificateFileName:
+          maxLength: 64
+          type: string
+        keyFileName:
+          maxLength: 64
+          type: string
+        capathFileName:
+          maxLength: 64
+          type: string
+        keyPassphrase:
+          maxLength: 64
+          type: string
+      required:
+      - certificate
+      - key
+      - keyPassphrase
+      - source
+      type: object
+    PrivateSpace_provisioning:
+      description: "If present, describes the last known infra status of the Private\
+        \ space."
+      example:
+        message: message
+        status: status
+      properties:
+        status:
+          description: The last known status of the space's infra
+          type: string
+        message:
+          description: Message describing the last known infra's status
+          type: string
+      type: object
+    type_errors_inner:
+      properties:
+        code:
+          description: |
+            Machine error description. Internal code representation for cosumer
+            code error handling.
+          type: string
+        message:
+          description: |
+            Human readable error description.
+          type: string
+      required:
+      - code
+      - message
+      type: object
+    ingressConfiguration_logs:
+      description: Ingress log level configuration
+      example:
+        portLogLevel: ERROR
+        filters:
+        - level: level
+          ip: ip
+        - level: level
+          ip: ip
+      properties:
+        filters:
+          items:
+            $ref: '#/components/schemas/PrivateSpaceIngressConfigurationLogsFilter'
+          type: array
+        portLogLevel:
+          default: ERROR
+          description: Log levels
+          type: string
+      type: object
+    ingressConfiguration_deployment:
+      example:
+        lastSeenTimestamp: 5.962133916683182
+        status: status
+      properties:
+        status:
+          type: string
+        lastSeenTimestamp:
+          type: number
+      required:
+      - lastSeenTimestamp
+      - status
+      type: object
+    items_10_basicConstraints:
+      description: This identifies if the subject of the certificate is a CA
+      example:
+        certificateAuthority: true
+      properties:
+        certificateAuthority:
+          description: "If set to true, indicates that this is a CA certificate."
+          type: boolean
+      required:
+      - certificateAuthority
+      type: object
+x-amf-securitySchemes:
+  std.x-token:
+    type: x-token
+    description: |
+      Bearer token Authentication. Users need to get the token from the Anypoint Authentication Service.
+    x-amf-describedBy:
+      headers:
+        Authorization:
+          description: |
+            Bearer token
+          type: string
+          pattern: "[Bearer|Basic].*"
+      responses:
+        "401":
+          description: Unauthorized. Your token is invalid and could not be identified
+            as a user.
+          headers:
+            WWW-Authenticate: {}
+          body:
+            application/json:
+              examples:
+                example_0:
+                  message: Not Supported  Content-Type
+                bad-rq:
+                  message: Invalid Request
+                  errors:
+                  - code: XX005
+                    message: Invalid Name Format.
+                  - code: XX006
+                    message: Reached Maximum number of Resources
+                example_1:
+                  message: You are not authorized to perform this request
+              additionalProperties: true
+              properties:
+                message:
+                  description: |
+                    Human readable error description.
+                  type: string
+                  required: true
+                errors:
+                  description: |
+                    Error list use to describe the set of validations that has failed. Only required in case
+                    HTTP error code is not enough to describe the failure case.
+                  type: array
+                  items:
+                    additionalProperties: true
+                    properties:
+                      code:
+                        description: |
+                          Machine error description. Internal code representation for cosumer
+                          code error handling.
+                        type: string
+                        required: true
+                      message:
+                        description: |
+                          Human readable error description.
+                        type: string
+                        required: true
+                  required: false
+        "403":
+          description: Forbidden. Your token is valid but you have no permissions
+            to access the resource.
+          body:
+            application/json:
+              examples:
+                example_0:
+                  message: Not Supported  Content-Type
+                bad-rq:
+                  message: Invalid Request
+                  errors:
+                  - code: XX005
+                    message: Invalid Name Format.
+                  - code: XX006
+                    message: Reached Maximum number of Resources
+                example_1:
+                  message: You are not authorized to perform this request
+              additionalProperties: true
+              properties:
+                message:
+                  description: |
+                    Human readable error description.
+                  type: string
+                  required: true
+                errors:
+                  description: |
+                    Error list use to describe the set of validations that has failed. Only required in case
+                    HTTP error code is not enough to describe the failure case.
+                  type: array
+                  items:
+                    additionalProperties: true
+                    properties:
+                      code:
+                        description: |
+                          Machine error description. Internal code representation for cosumer
+                          code error handling.
+                        type: string
+                        required: true
+                      message:
+                        description: |
+                          Human readable error description.
+                        type: string
+                        required: true
+                  required: false
+x-original-swagger-version: "2.0"

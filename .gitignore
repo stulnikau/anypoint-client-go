@@ -22,6 +22,10 @@
 /Godeps/
 
 
+# API definitions
+api.json
+exchange.json
+
 **/.vscode/**
 
 main.go
